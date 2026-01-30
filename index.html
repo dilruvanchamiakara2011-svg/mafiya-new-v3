@@ -13,6 +13,32 @@
   --secondary:#00aaff;
   --bg:#0a0a1a;
 }
+  
+.mafia-section{
+  max-width:900px;
+  margin:40px auto 120px;
+  padding:0 20px;
+  text-align:center;
+}
+
+.mafia-title{
+  font-family:'Orbitron',sans-serif;
+  font-size:3rem;
+  letter-spacing:6px;
+  background:linear-gradient(90deg,#00ff88,#00aaff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  text-shadow:0 0 25px rgba(0,255,136,.35);
+}
+
+.mafia-desc{
+  margin-top:15px;
+  font-size:.95rem;
+  letter-spacing:2px;
+  color:#9fffe0;
+  opacity:.85;
+  line-height:1.6;
+}
 
 *{margin:0;padding:0;box-sizing:border-box;}
 
@@ -145,6 +171,14 @@ canvas{
 </head>
 
 <body>
+
+<section class="mafia-section">
+  <h2 class="mafia-title">I’M A MAFIYA</h2>
+  <p class="mafia-desc">
+    Silent crew. Dark code.  
+    We build, break, and rebuild systems — smarter.
+  </p>
+</section>
 
 <canvas id="matrix"></canvas>
 
