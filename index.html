@@ -24,15 +24,13 @@ body{
   overflow-x:hidden;
 }
 
-/* ===== MATRIX ===== */
 canvas{
   position:fixed;
-  top:0;
-  left:0;
+  inset:0;
   z-index:-1;
 }
 
-/* ===== MENU BUTTON ===== */
+/* MENU */
 .cyber-menu-btn{
   position:fixed;
   top:25px;
@@ -51,18 +49,26 @@ canvas{
   z-index:1000;
 }
 
-/* ===== MENU PANEL ===== */
 .cyber-menu-panel{
   position:fixed;
   top:95px;
   right:25px;
-  width:300px;
-  background:rgba(15,20,35,.96);
+  width:280px;
+  background:rgba(15,20,35,.97);
   border:1px solid rgba(0,255,136,.3);
   border-radius:15px;
-  padding:20px;
-  display:none;
+  padding:18px;
+  opacity:0;
+  pointer-events:none;
+  transform:translateY(-10px);
+  transition:.25s ease;
   z-index:999;
+}
+
+.cyber-menu-panel.active{
+  opacity:1;
+  pointer-events:auto;
+  transform:translateY(0);
 }
 
 .menu-title{
@@ -78,22 +84,21 @@ canvas{
   border:1px solid rgba(0,255,136,.2);
   border-radius:10px;
   cursor:pointer;
-  color:#fff;
 }
 
 .cyber-menu-item:hover{
   background:rgba(0,255,136,.1);
 }
 
-/* ===== HEADER ===== */
+/* HEADER */
 .header{
   text-align:center;
-  padding:90px 20px 40px;
+  padding:80px 20px 20px;
 }
 
 .glow-title{
   font-family:'Orbitron',sans-serif;
-  font-size:3rem;
+  font-size:2.8rem;
   background:linear-gradient(90deg,var(--primary),var(--secondary));
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
@@ -105,18 +110,19 @@ canvas{
   color:var(--secondary);
 }
 
-/* ===== CENTER STATUS ===== */
+/* STATUS */
 .center-status{
-  display:flex;
-  justify-content:center;
+  max-width:1100px;
+  margin:50px auto 80px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
   gap:20px;
-  margin:70px 20px 90px;
-  flex-wrap:wrap;
+  padding:0 20px;
 }
 
 .status-box{
-  min-width:230px;
-  padding:15px 20px;
+  min-height:90px;
+  padding:15px;
   border:1px solid rgba(0,255,136,.3);
   border-radius:12px;
   background:rgba(0,20,40,.6);
@@ -124,11 +130,15 @@ canvas{
   font-family:'Orbitron',sans-serif;
   color:var(--primary);
   box-shadow:0 0 15px rgba(0,255,136,.2);
-  font-size:0.95rem;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:6px;
+  font-size:.9rem;
 }
 
-/* ===== MOBILE ===== */
-@media(max-width:768px){
+@media(max-width:600px){
+  .cyber-menu-panel{right:15px;width:90%;}
   .glow-title{font-size:2.2rem;}
 }
 </style>
@@ -138,7 +148,6 @@ canvas{
 
 <canvas id="matrix"></canvas>
 
-<!-- MENU -->
 <div class="cyber-menu-btn" id="menuBtn">☰</div>
 
 <div class="cyber-menu-panel" id="menuPanel">
@@ -150,88 +159,87 @@ canvas{
   <div class="cyber-menu-item">📧 Contact</div>
 </div>
 
-<!-- HEADER -->
 <header class="header">
   <h1 class="glow-title">CYBER PORTFOLIO</h1>
   <p class="subtitle">FULL STACK DEVELOPER</p>
 </header>
 
-<!-- CENTER STATUS -->
 <div class="center-status">
-  <div class="status-box">🌍 IP: <span id="ip">loading...</span></div>
-  <div class="status-box">🕒 TIME: <span id="time">--:--:--</span></div>
-  <div class="status-box">⏱ UPTIME: <span id="uptime">00:00:00</span></div>
-  <div class="status-box">👥 VISITORS: <span id="visitors">0</span></div>
-  <div class="status-box">🔄 LAST UPDATE: <span id="lastUpdate">--</span></div>
-  <div class="status-box">📦 VERSION: v1.0.0</div>
+  <div class="status-box">🌍 IP<br><span id="ip">loading...</span></div>
+  <div class="status-box">🕒 TIME<br><span id="time">--</span></div>
+  <div class="status-box">⏱ UPTIME<br><span id="uptime">00:00:00</span></div>
+  <div class="status-box">👥 VISITORS<br><span id="visitors">0</span></div>
+  <div class="status-box">🔄 LAST UPDATE<br><span id="lastUpdate">--</span></div>
+  <div class="status-box">📦 VERSION<br><span id="version"></span></div>
 </div>
 
 <script>
-/* ===== MATRIX EFFECT ===== */
-const c=document.getElementById("matrix");
-const ctx=c.getContext("2d");
-c.width=innerWidth;
-c.height=innerHeight;
+/* MATRIX */
+const c = document.getElementById("matrix");
+const ctx = c.getContext("2d");
+c.width = innerWidth;
+c.height = innerHeight;
 
-const chars="01";
-const font=16;
-const cols=c.width/font;
-const drops=Array(cols).fill(1);
+const chars = "01";
+const font = 16;
+const cols = c.width / font;
+const drops = Array(cols).fill(1);
 
-function drawMatrix(){
- ctx.fillStyle="rgba(10,10,26,.1)";
- ctx.fillRect(0,0,c.width,c.height);
- ctx.fillStyle="#00ff88";
- ctx.font=font+"px monospace";
- drops.forEach((y,i)=>{
-   const t=chars[Math.floor(Math.random()*chars.length)];
-   ctx.fillText(t,i*font,y*font);
-   drops[i]=y*font>c.height&&Math.random()>0.97?0:y+1;
- });
-}
-setInterval(drawMatrix,50);
+setInterval(() => {
+  ctx.fillStyle = "rgba(10,10,26,.1)";
+  ctx.fillRect(0,0,c.width,c.height);
+  ctx.fillStyle = "#00ff88";
+  ctx.font = font + "px monospace";
+  drops.forEach((y,i)=>{
+    ctx.fillText(chars[Math.random()*2|0], i*font, y*font);
+    drops[i] = y*font > c.height && Math.random() > .97 ? 0 : y+1;
+  });
+},50);
 
-/* ===== MENU ===== */
-menuBtn.onclick=()=>{
-  menuPanel.style.display=
-  menuPanel.style.display==="block"?"none":"block";
-}
+/* MENU */
+menuBtn.onclick = e=>{
+  e.stopPropagation();
+  menuPanel.classList.toggle("active");
+};
+document.onclick = e=>{
+  if(!menuPanel.contains(e.target)) menuPanel.classList.remove("active");
+};
 
-/* ===== REAL IP ===== */
+/* REAL IP */
 fetch("https://api.ipify.org?format=json")
 .then(r=>r.json())
 .then(d=>ip.innerText=d.ip)
-.catch(()=>ip.innerText="Unavailable");
+.catch(()=>ip.innerText="Hidden");
 
-/* ===== TIME ===== */
-function updateTime(){
-  const n=new Date();
-  time.innerText=n.toLocaleTimeString();
-}
-setInterval(updateTime,1000);
-updateTime();
-
-/* ===== UPTIME ===== */
-let start=Date.now();
+/* REAL TIME */
 setInterval(()=>{
-  let diff=Math.floor((Date.now()-start)/1000);
-  let h=String(Math.floor(diff/3600)).padStart(2,"0");
-  let m=String(Math.floor((diff%3600)/60)).padStart(2,"0");
-  let s=String(diff%60).padStart(2,"0");
-  uptime.innerText=`${h}:${m}:${s}`;
+  time.innerText=new Date().toLocaleTimeString();
 },1000);
 
-/* ===== FAKE VISITORS ===== */
-let v=localStorage.getItem("visitors")||1200;
+/* FAKE UPTIME (session based) */
+let start=Date.now();
 setInterval(()=>{
-  v++;
-  localStorage.setItem("visitors",v);
-  visitors.innerText=v;
-},4000);
-visitors.innerText=v;
+  let s=Math.floor((Date.now()-start)/1000);
+  uptime.innerText=
+    String(Math.floor(s/3600)).padStart(2,"0")+":"+
+    String(Math.floor(s%3600/60)).padStart(2,"0")+":"+
+    String(s%60).padStart(2,"0");
+},1000);
 
-/* ===== LAST UPDATE ===== */
-lastUpdate.innerText=new Date().toLocaleString();
+/* FAKE VISITORS (persistent) */
+let base = Number(localStorage.getItem("visitors")) || 1287;
+visitors.innerText = base;
+setInterval(()=>{
+  base += Math.random()>.5?1:0;
+  localStorage.setItem("visitors",base);
+  visitors.innerText = base;
+},3000);
+
+/* LAST UPDATE */
+lastUpdate.innerText = new Date().toLocaleString();
+
+/* VERSION */
+version.innerText = "v1.2.0-cyber";
 </script>
 
 </body>
