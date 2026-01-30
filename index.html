@@ -189,11 +189,76 @@ canvas{
   box-shadow:0 0 25px rgba(0,255,136,.6);
   transform:translateY(-2px);
 }
+
+.auth-bar{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:55px;
+  background:rgba(5,10,25,.85);
+  backdrop-filter:blur(6px);
+  border-bottom:1px solid rgba(0,255,136,.25);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 20px;
+  z-index:2000;
+}
+
+.auth-logo{
+  font-family:'Orbitron',sans-serif;
+  color:var(--primary);
+  letter-spacing:3px;
+  font-size:.9rem;
+}
+
+.auth-right{
+  display:flex;
+  gap:12px;
+}
+
+.auth-btn{
+  padding:6px 16px;
+  border-radius:20px;
+  font-family:'Orbitron',sans-serif;
+  font-size:.7rem;
+  letter-spacing:2px;
+  text-decoration:none;
+  border:1px solid var(--primary);
+  color:var(--primary);
+  transition:.25s ease;
+}
+
+.auth-btn:hover{
+  background:rgba(0,255,136,.15);
+  box-shadow:0 0 12px rgba(0,255,136,.6);
+}
+
+.signup{
+  background:rgba(0,255,136,.15);
+    }
+
+.header{
+  text-align:center;
+  padding:120px 20px 20px;
+}
   
 </style>
 </head>
 
 <body>
+
+<div class="auth-bar">
+  <div class="auth-left">
+    <span class="auth-logo">CYBER</span>
+  </div>
+
+  <div class="auth-right">
+    <a href="#" class="auth-btn login">LOGIN</a>
+    <a href="#" class="auth-btn signup">SIGN UP</a>
+  </div>
+</div>
 
 <section class="mafia-section">
   <h2 class="mafia-title">I’M A MAFIYA</h2>
