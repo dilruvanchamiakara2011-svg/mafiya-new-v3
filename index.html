@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyber Portfolio</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --primary: #00ff88;
+  --secondary: #00aaff;
+  --accent: #ff00ff;
+  --bg: #0a0a1a;
+  --card-bg: rgba(15, 20, 35, 0.85);
+  --glow: 0 0 20px rgba(0, 255, 136, 0.3);
+  --grid-color: rgba(0, 255, 136, 0.05);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ===== BACKGROUND EFFECTS ===== */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px),
+    linear-gradient(var(--grid-color) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  z-index: -2;
+}
+
+#matrix {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  opacity: 0.7;
+}
+
+/* ===== GLOWING ORB ===== */
+.glow-orb {
+  position: fixed;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 255, 136, 0.15) 0%, rgba(0, 170, 255, 0.05) 40%, transparent 70%);
+  filter: blur(60px);
+  z-index: -2;
+  pointer-events: none;
+  animation: float 20s infinite alternate ease-in-out;
+}
+
+.glow-orb:nth-child(1) {
+  top: -200px;
+  left: -200px;
+  animation-delay: 0s;
+}
+
+.glow-orb:nth-child(2) {
+  bottom: -200px;
+  right: -200px;
+  background: radial-gradient(circle, rgba(255, 0, 255, 0.1) 0%, transparent 70%);
+  animation-delay: -10s;
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(100px, 100px) scale(1.2); }
+}
+
+/* ===== MENU BUTTON ===== */
+.cyber-menu-btn {
+  position: fixed;
+  top: 25px;
+  right: 25px;
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  border: 2px solid var(--primary);
+  background: rgba(15, 20, 35, 0.9);
+  color: var(--primary);
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  box-shadow: var(--glow);
+}
+
+.cyber-menu-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
+  background: rgba(0, 255, 136, 0.1);
+}
+
+/* ===== MENU PANEL ===== */
+.cyber-menu-panel {
+  position: fixed;
+  top: 95px;
+  right: 25px;
+  width: 320px;
+  background: var(--card-bg);
+  border: 2px solid rgba(0, 255, 136, 0.4);
+  border-radius: 16px;
+  padding: 25px;
+  display: none;
+  z-index: 999;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.menu-title {
+  font-family: 'Orbitron', sans-serif;
+  color: var(--primary);
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.menu-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 25%;
+  width: 50%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--primary), transparent);
+}
+
+.cyber-menu-item {
+  padding: 16px 20px;
+  margin-bottom: 12px;
+  border: 1px solid rgba(0, 255, 136, 0.3);
+  border-radius: 10px;
+  cursor: pointer;
+  color: #fff;
+  background: rgba(0, 20, 40, 0.4);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cyber-menu-item:hover {
+  background: rgba(0, 255, 136, 0.15);
+  border-color: var(--primary);
+  transform: translateX(5px);
+  box-shadow: 0 5px 15px rgba(0, 255, 136, 0.2);
+}
+
+.cyber-menu-item::before {
+  content: '▶';
+  color: var(--primary);
+  font-size: 0.8rem;
+}
+
+/* ===== HEADER ===== */
+.header {
+  text-align: center;
+  padding: 120px 20px 60px;
+  position: relative;
+}
+
+.glow-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 4rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
+  letter-spacing: 3px;
+  margin-bottom: 20px;
+  position: relative;
+  display: inline-block;
+}
+
+.glow-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 10%;
+  width: 80%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--primary), transparent);
+}
+
+.subtitle {
+  margin-top: 20px;
+  letter-spacing: 4px;
+  color: var(--secondary);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+
+/* ===== CENTER STATUS ===== */
+.center-status {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+  margin: 40px auto;
+  padding: 0 20px;
+  max-width: 1400px;
+}
+
+.status-box {
+  padding: 25px;
+  border: 2px solid rgba(0, 255, 136, 0.3);
+  border-radius: 16px;
+  background: var(--card-bg);
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--primary);
+  box-shadow: var(--glow);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.status-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 255, 136, 0.3);
+  border-color: var(--primary);
+}
+
+.status-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.status-box:hover::before {
+  left: 100%;
+}
+
+.status-box span {
+  color: #fff;
+  font-weight: 500;
+  margin-left: 10px;
+  font-family: 'Inter', sans-serif;
+}
+
+.status-icon {
+  font-size: 1.5rem;
+  margin-right: 15px;
+  vertical-align: middle;
+}
+
+/* ===== PULSE ANIMATION ===== */
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .glow-title {
+    font-size: 2.5rem;
+  }
+  
+  .center-status {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .cyber-menu-panel {
+    width: calc(100% - 50px);
+    right: 25px;
+    left: 25px;
+  }
+  
+  .status-box {
+    min-width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .glow-title {
+    font-size: 2rem;
+  }
+  
+  .header {
+    padding: 100px 20px 40px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="glow-orb"></div>
+<div class="glow-orb"></div>
+<canvas id="matrix"></canvas>
+
+<!-- MENU -->
+<div class="cyber-menu-btn" id="menuBtn">☰</div>
+
+<div class="cyber-menu-panel" id="menuPanel">
+  <div class="menu-title">SYSTEM MENU</div>
+  <div class="cyber-menu-item"><span class="status-icon">🏠</span> Dashboard</div>
+  <div class="cyber-menu-item"><span class="status-icon">🚀</span> Projects</div>
+  <div class="cyber-menu-item"><span class="status-icon">🌐</span> Web Apps</div>
+  <div class="cyber-menu-item"><span class="status-icon">⚙</span> Services</div>
+  <div class="cyber-menu-item"><span class="status-icon">📧</span> Contact</div>
+</div>
+
+<!-- HEADER -->
+<header class="header">
+  <h1 class="glow-title">CYBER PORTFOLIO</h1>
+  <p class="subtitle">FULL STACK DEVELOPER</p>
+</header>
+
+<!-- CENTER STATUS -->
+<div class="center-status">
+  <div class="status-box">
+    <span class="status-icon">🌍</span> IP: 
+    <span id="ip" class="pulse">loading...</span>
+  </div>
+  <div class="status-box">
+    <span class="status-icon">🕒</span> TIME: 
+    <span id="time">--:--:--</span>
+  </div>
+  <div class="status-box">
+    <span class="status-icon">⏱</span> UPTIME: 
+    <span id="uptime">00:00:00</span>
+  </div>
+  <div class="status-box">
+    <span class="status-icon">👥</span> VISITORS: 
+    <span id="visitors">0</span>
+  </div>
+  <div class="status-box">
+    <span class="status-icon">🔄</span> LAST UPDATE: 
+    <span id="lastUpdate">--</span>
+  </div>
+  <div class="status-box">
+    <span class="status-icon">📦</span> VERSION: 
+    <span>v1.0.0</span>
+  </div>
+</div>
+
+<script>
+/* ===== MATRIX EFFECT ===== */
+const c = document.getElementById("matrix");
+const ctx = c.getContext("2d");
+c.width = innerWidth;
+c.height = innerHeight;
+
+const chars = "01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン";
+const font = 18;
+const cols = c.width / font;
+const drops = Array(cols).fill(1);
+
+function drawMatrix() {
+  ctx.fillStyle = "rgba(10, 10, 26, 0.05)";
+  ctx.fillRect(0, 0, c.width, c.height);
+  ctx.fillStyle = "#00ff88";
+  ctx.font = font + "px 'JetBrains Mono', monospace";
+  drops.forEach((y, i) => {
+    const t = chars[Math.floor(Math.random() * chars.length)];
+    const alpha = Math.random() * 0.7 + 0.3;
+    ctx.globalAlpha = alpha;
+    ctx.fillText(t, i * font, y * font);
+    ctx.globalAlpha = 1;
+    drops[i] = y * font > c.height && Math.random() > 0.97 ? 0 : y + 1;
+  });
+}
+setInterval(drawMatrix, 50);
+
+window.addEventListener('resize', () => {
+  c.width = innerWidth;
+  c.height = innerHeight;
+});
+
+/* ===== MENU ===== */
+menuBtn.onclick = () => {
+  menuPanel.style.display = menuPanel.style.display === "block" ? "none" : "block";
+}
+
+/* ===== REAL IP ===== */
+fetch("https://api.ipify.org?format=json")
+  .then(r => r.json())
+  .then(d => {
+    ip.innerText = d.ip;
+    ip.classList.remove("pulse");
+  })
+  .catch(() => {
+    ip.innerText = "Unavailable";
+    ip.classList.remove("pulse");
+  });
+
+/* ===== TIME ===== */
+function updateTime() {
+  const n = new Date();
+  time.innerText = n.toLocaleTimeString();
+}
+setInterval(updateTime, 1000);
+updateTime();
+
+/* ===== UPTIME ===== */
+let start = Date.now();
+setInterval(() => {
+  let diff = Math.floor((Date.now() - start) / 1000);
+  let h = String(Math.floor(diff / 3600)).padStart(2, "0");
+  let m = String(Math.floor((diff % 3600) / 60)).padStart(2, "0");
+  let s = String(diff % 60).padStart(2, "0");
+  uptime.innerText = `${h}:${m}:${s}`;
+}, 1000);
+
+/* ===== FAKE VISITORS ===== */
+let v = localStorage.getItem("visitors") || 1200;
+setInterval(() => {
+  v++;
+  localStorage.setItem("visitors", v);
+  visitors.innerText = v;
+}, 4000);
+visitors.innerText = v;
+
+/* ===== LAST UPDATE ===== */
+lastUpdate.innerText = new Date().toLocaleString();
+</script>
+
+</body>
+                                 </html>
