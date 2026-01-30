@@ -174,83 +174,63 @@ canvas{
 </div>
 
 <script>
+document.addEventListener("DOMContentLoaded", () => {
 
-// erro fix 
-const ip = document.getElementById("ip");
-const time = document.getElementById("time");
-const uptime = document.getElementById("uptime");
-const visitors = document.getElementById("visitors");
-const lastUpdate = document.getElementById("lastUpdate");
-const version = document.getElementById("version");
-const menuBtn = document.getElementById("menuBtn");
-const menuPanel = document.getElementById("menuPanel");
-  
-/* MATRIX */
-const c = document.getElementById("matrix");
-const ctx = c.getContext("2d");
-c.width = innerWidth;
-c.height = innerHeight;
+  const ip = document.getElementById("ip");
+  const time = document.getElementById("time");
+  const uptime = document.getElementById("uptime");
+  const visitors = document.getElementById("visitors");
+  const lastUpdate = document.getElementById("lastUpdate");
+  const version = document.getElementById("version");
+  const menuBtn = document.getElementById("menuBtn");
+  const menuPanel = document.getElementById("menuPanel");
 
-const chars = "01";
-const font = 16;
-const cols = c.width / font;
-const drops = Array(cols).fill(1);
+  /* MENU */
+  menuBtn.onclick = e=>{
+    e.stopPropagation();
+    menuPanel.classList.toggle("active");
+  };
+  document.onclick = e=>{
+    if(!menuPanel.contains(e.target)) menuPanel.classList.remove("active");
+  };
 
-setInterval(() => {
-  ctx.fillStyle = "rgba(10,10,26,.1)";
-  ctx.fillRect(0,0,c.width,c.height);
-  ctx.fillStyle = "#00ff88";
-  ctx.font = font + "px monospace";
-  drops.forEach((y,i)=>{
-    ctx.fillText(chars[Math.random()*2|0], i*font, y*font);
-    drops[i] = y*font > c.height && Math.random() > .97 ? 0 : y+1;
-  });
-},50);
+  /* REAL TIME */
+  setInterval(()=>{
+    time.textContent = new Date().toLocaleTimeString();
+  },1000);
 
-/* MENU */
-menuBtn.onclick = e=>{
-  e.stopPropagation();
-  menuPanel.classList.toggle("active");
-};
-document.onclick = e=>{
-  if(!menuPanel.contains(e.target)) menuPanel.classList.remove("active");
-};
+  /* REAL IP (Brave safe) */
+  fetch("https://ipapi.co/json/")
+    .then(r=>r.json())
+    .then(d=>ip.textContent = d.ip)
+    .catch(()=>ip.textContent="Hidden");
 
-/* REAL IP */
-fetch("https://ipapi.co/json/")
-.then(r=>r.json())
-.then(d=>ip.innerText=d.ip)
-.catch(()=>ip.innerText="Hidden");
+  /* FAKE UPTIME */
+  let start = Date.now();
+  setInterval(()=>{
+    let s = Math.floor((Date.now()-start)/1000);
+    uptime.textContent =
+      String(Math.floor(s/3600)).padStart(2,"0")+":"+
+      String(Math.floor(s%3600/60)).padStart(2,"0")+":"+
+      String(s%60).padStart(2,"0");
+  },1000);
 
-/* REAL TIME */
-setInterval(()=>{
-  time.innerText=new Date().toLocaleTimeString();
-},1000);
+  /* FAKE VISITORS */
+  let v = Number(localStorage.getItem("visitors")) || 1024;
+  visitors.textContent = v;
+  setInterval(()=>{
+    v += Math.random() > 0.6 ? 1 : 0;
+    localStorage.setItem("visitors", v);
+    visitors.textContent = v;
+  }, 3000);
 
-/* FAKE UPTIME (session based) */
-let start=Date.now();
-setInterval(()=>{
-  let s=Math.floor((Date.now()-start)/1000);
-  uptime.innerText=
-    String(Math.floor(s/3600)).padStart(2,"0")+":"+
-    String(Math.floor(s%3600/60)).padStart(2,"0")+":"+
-    String(s%60).padStart(2,"0");
-},1000);
+  /* LAST UPDATE */
+  lastUpdate.textContent = new Date().toLocaleString();
 
-/* FAKE VISITORS (persistent) */
-let base = Number(localStorage.getItem("visitors")) || 1287;
-visitors.innerText = base;
-setInterval(()=>{
-  base += Math.random()>.5?1:0;
-  localStorage.setItem("visitors",base);
-  visitors.innerText = base;
-},3000);
+  /* VERSION */
+  version.textContent = "v1.2.1-stable";
 
-/* LAST UPDATE */
-lastUpdate.innerText = new Date().toLocaleString();
-
-/* VERSION */
-version.innerText = "v1.2.0-cyber";
+});
 </script>
 
 </body>
