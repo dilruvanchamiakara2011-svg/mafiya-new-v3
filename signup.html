@@ -150,7 +150,32 @@ document.getElementById('signupBtn').onclick = async () => {
   const data = await res.json();
   alert(data.success ? 'Signup successful' : 'Signup failed');
 };
+<script>
+document.querySelector("button").addEventListener("click", () => {
+  const username = document.querySelector('input[placeholder="Username"]').value.trim();
+  const email = document.querySelector('input[placeholder="Email"]').value.trim();
+  const password = document.querySelector('input[placeholder="Password"]').value.trim();
 
+  if(!username || !email || !password){
+    alert("⚠️ Please fill all fields");
+    return;
+  }
+
+  const users = JSON.parse(localStorage.getItem("mafiya_users")) || [];
+
+  const exists = users.find(u => u.email === email);
+  if(exists){
+    alert("❌ Email already registered");
+    return;
+  }
+
+  users.push({ username, email, password });
+  localStorage.setItem("mafiya_users", JSON.stringify(users));
+
+  alert("✅ Signup successful!");
+  window.location.href = "login.html";
+});
+</script>
 
   </script>
   
