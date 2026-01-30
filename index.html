@@ -167,6 +167,29 @@ canvas{
   .cyber-menu-panel{right:15px;width:90%;}
   .glow-title{font-size:2.2rem;}
 }
+
+.mafia-btn{
+  display:inline-block;
+  margin-top:25px;
+  padding:12px 26px;
+  border:1px solid var(--primary);
+  border-radius:30px;
+  color:var(--primary);
+  font-family:'Orbitron',sans-serif;
+  font-size:.8rem;
+  letter-spacing:3px;
+  text-decoration:none;
+  background:rgba(0,0,0,.3);
+  box-shadow:0 0 15px rgba(0,255,136,.25);
+  transition:.25s ease;
+}
+
+.mafia-btn:hover{
+  background:rgba(0,255,136,.15);
+  box-shadow:0 0 25px rgba(0,255,136,.6);
+  transform:translateY(-2px);
+}
+  
 </style>
 </head>
 
@@ -206,6 +229,10 @@ canvas{
   <div class="status-box">🔄 LAST UPDATE<br><span id="lastUpdate">--</span></div>
   <div class="status-box">📦 VERSION<br><span id="version"></span></div>
 </div>
+
+<a href="#projects" class="mafia-btn">
+  GO TO PROJECT PAGE →
+</a>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
