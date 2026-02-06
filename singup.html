@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CYBER SIGN UP</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+  --primary: #00ff88;
+  --secondary: #00aaff;
+  --accent: #ff00ff;
+  --bg: #0a0a1a;
+  --card-bg: rgba(15, 20, 35, 0.9);
+  --glow: 0 0 20px rgba(0, 255, 136, 0.5);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg);
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Background Effects */
+.cyber-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(0, 255, 136, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(0, 170, 255, 0.1) 0%, transparent 50%);
+}
+
+.grid-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+  z-index: -1;
+  opacity: 0.5;
+}
+
+/* Main Container */
+.signup-container {
+  width: 100%;
+  max-width: 450px;
+  padding: 20px;
+}
+
+/* Cyber Card */
+.cyber-card {
+  background: var(--card-bg);
+  border: 1px solid rgba(0, 255, 136, 0.3);
+  border-radius: 20px;
+  padding: 40px;
+  backdrop-filter: blur(15px);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+  animation: card-appear 0.8s ease-out;
+}
+
+@keyframes card-appear {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.cyber-card::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(
+    45deg,
+    #00ff88, #00aaff, #0088ff, #00ff88
+  );
+  border-radius: 22px;
+  z-index: -1;
+  opacity: 0.5;
+  animation: border-rotate 3s linear infinite;
+}
+
+@keyframes border-rotate {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+  100% {
+    filter: hue-rotate(360deg);
+  }
+}
+
+/* Header */
+.signup-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.signup-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2.5rem;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  text-shadow: var(--glow);
+  animation: title-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes title-glow {
+  0% { filter: brightness(1); }
+  100% { filter: brightness(1.5); }
+}
+
+.signup-subtitle {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+}
+
+/* Form Groups */
+.form-group {
+  position: relative;
+  margin-bottom: 25px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 18px 20px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 2px solid rgba(0, 255, 136, 0.2);
+  border-radius: 12px;
+  color: white;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.form-label {
+  position: absolute;
+  left: 20px;
+  top: 18px;
+  color: rgba(255, 255, 255, 0.6);
+  transition: all 0.3s ease;
+  pointer-events: none;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+}
+
+.form-input:focus + .form-label,
+.form-input:not(:placeholder-shown) + .form-label {
+  top: -12px;
+  left: 15px;
+  font-size: 0.8rem;
+  color: var(--primary);
+  background: var(--card-bg);
+  padding: 0 10px;
+  text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+}
+
+/* Show Password */
+.password-wrapper {
+  position: relative;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: rgba(0, 255, 136, 0.7);
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 5px;
+  transition: all 0.3s ease;
+}
+
+.toggle-password:hover {
+  color: var(--primary);
+}
+
+/* Submit Button */
+.submit-btn {
+  width: 100%;
+  padding: 18px;
+  background: linear-gradient(45deg, 
+    rgba(0, 255, 136, 0.2), 
+    rgba(0, 170, 255, 0.2));
+  border: 2px solid var(--primary);
+  border-radius: 12px;
+  color: var(--primary);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.1rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.submit-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(0, 255, 136, 0.3), 
+    transparent);
+  transition: 0.5s;
+}
+
+.submit-btn:hover::before {
+  left: 100%;
+}
+
+.submit-btn:hover {
+  background: linear-gradient(45deg, 
+    rgba(0, 255, 136, 0.3), 
+    rgba(0, 170, 255, 0.3));
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0, 255, 136, 0.4);
+  color: #00ffcc;
+}
+
+.submit-btn:active {
+  transform: translateY(-1px);
+}
+
+.submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Message */
+.message {
+  text-align: center;
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 10px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+}
+
+.message.success {
+  background: rgba(0, 255, 136, 0.1);
+  border: 1px solid rgba(0, 255, 136, 0.3);
+  color: #00ff88;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.message.error {
+  background: rgba(255, 0, 0, 0.1);
+  border: 1px solid rgba(255, 0, 0, 0.3);
+  color: #ff5555;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Footer Links */
+.signup-footer {
+  text-align: center;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(0, 255, 136, 0.1);
+}
+
+.login-link {
+  color: var(--secondary);
+  text-decoration: none;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.login-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--secondary);
+  transition: width 0.3s ease;
+}
+
+.login-link:hover {
+  color: var(--primary);
+}
+
+.login-link:hover::after {
+  width: 100%;
+}
+
+/* Loading Animation */
+.loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(0, 255, 136, 0.3);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .cyber-card {
+    padding: 30px 20px;
+    margin: 0 15px;
+  }
+  
+  .signup-title {
+    font-size: 2rem;
+    letter-spacing: 2px;
+  }
+  
+  .form-input {
+    padding: 15px;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="cyber-bg"></div>
+<div class="grid-overlay"></div>
+
+<div class="signup-container">
+  <div class="cyber-card">
+    <div class="signup-header">
+      <h1 class="signup-title">CYBER SIGN UP</h1>
+      <p class="signup-subtitle">JOIN THE NETWORK</p>
+    </div>
+
+    <div class="form-group">
+      <input type="text" 
+             class="form-input" 
+             id="username" 
+             placeholder=" "
+             autocomplete="username">
+      <label class="form-label" for="username">USERNAME</label>
+    </div>
+
+    <div class="form-group">
+      <input type="email" 
+             class="form-input" 
+             id="email" 
+             placeholder=" "
+             autocomplete="email">
+      <label class="form-label" for="email">EMAIL</label>
+    </div>
+
+    <div class="form-group password-wrapper">
+      <input type="password" 
+             class="form-input" 
+             id="password" 
+             placeholder=" "
+             autocomplete="new-password">
+      <label class="form-label" for="password">PASSWORD</label>
+      <button type="button" class="toggle-password" id="togglePassword">
+        👁️
+      </button>
+    </div>
+
+    <button class="submit-btn" id="signupBtn" onclick="signup()">
+      <span id="btnText">SIGN UP</span>
+      <span id="btnLoading" class="loading" style="display: none;"></span>
+    </button>
+
+    <div class="message" id="msg"></div>
+
+    <div class="signup-footer">
+      <a href="login.html" class="login-link">
+        ALREADY HAVE AN ACCOUNT? LOGIN →
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+// ⚠️ TOKEN (you said it's OK 😅)
+const TOKEN = "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";
+
+// Repo info
+const OWNER = "dilruvanchamikara2011";
+const REPO  = "Mafiya-new-v3-data_base";
+const FILE  = "users.json";
+
+// DOM Elements
+const usernameInput = document.getElementById("username");
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+const togglePasswordBtn = document.getElementById("togglePassword");
+const signupBtn = document.getElementById("signupBtn");
+const btnText = document.getElementById("btnText");
+const btnLoading = document.getElementById("btnLoading");
+const msg = document.getElementById("msg");
+
+// Toggle Password Visibility
+let passwordVisible = false;
+togglePasswordBtn.addEventListener("click", () => {
+  passwordVisible = !passwordVisible;
+  passwordInput.type = passwordVisible ? "text" : "password";
+  togglePasswordBtn.textContent = passwordVisible ? "👁️‍🗨️" : "👁️";
+});
+
+async function signup() {
+  const username = usernameInput.value.trim();
+  const email = emailInput.value.trim();
+  const password = passwordInput.value;
+
+  // Clear previous message
+  msg.className = "message";
+  msg.textContent = "";
+
+  // Validation
+  if (!username || !email || !password) {
+    showMessage("Fill all fields", "error");
+    shakeElement(usernameInput);
+    shakeElement(emailInput);
+    shakeElement(passwordInput);
+    return;
+  }
+
+  if (!validateEmail(email)) {
+    showMessage("Invalid email format", "error");
+    shakeElement(emailInput);
+    return;
+  }
+
+  if (password.length < 6) {
+    showMessage("Password must be at least 6 characters", "error");
+    shakeElement(passwordInput);
+    return;
+  }
+
+  // Show loading state
+  signupBtn.disabled = true;
+  btnText.textContent = "PROCESSING";
+  btnLoading.style.display = "inline-block";
+
+  const api = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
+
+  try {
+    // 1️⃣ Get current file
+    const res = await fetch(api, {
+      headers: {
+        Authorization: `token ${TOKEN}`
+      }
+    });
+    
+    if (!res.ok) throw new Error("Failed to fetch users data");
+    
+    const data = await res.json();
+    const users = JSON.parse(atob(data.content));
+
+    // Check if user already exists
+    if (users.find(u => u.email === email)) {
+      showMessage("Email already registered", "error");
+      return;
+    }
+
+    // 2️⃣ Add new user
+    users.push({ 
+      username, 
+      email, 
+      password,
+      createdAt: new Date().toISOString(),
+      status: "active"
+    });
+
+    // 3️⃣ Update file
+    const update = await fetch(api, {
+      method: "PUT",
+      headers: {
+        Authorization: `token ${TOKEN}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: `Add user: ${username}`,
+        content: btoa(JSON.stringify(users, null, 2)),
+        sha: data.sha
+      })
+    });
+
+    if (update.ok) {
+      showMessage("Signup successful! Welcome to the network ✅", "success");
+      
+      // Clear form
+      usernameInput.value = "";
+      emailInput.value = "";
+      passwordInput.value = "";
+      
+      // Redirect to login after 2 seconds
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 2000);
+      
+    } else {
+      showMessage("Signup failed. Try again ❌", "error");
+    }
+
+  } catch (error) {
+    console.error("Signup error:", error);
+    showMessage("Connection error. Check console ❌", "error");
+  } finally {
+    // Reset button state
+    signupBtn.disabled = false;
+    btnText.textContent = "SIGN UP";
+    btnLoading.style.display = "none";
+  }
+}
+
+// Helper Functions
+function validateEmail(email) {
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(email);
+}
+
+function showMessage(text, type) {
+  msg.textContent = text;
+  msg.className = `message ${type}`;
+  
+  // Auto-hide error messages after 5 seconds
+  if (type === "error") {
+    setTimeout(() => {
+      msg.className = "message";
+      msg.textContent = "";
+    }, 5000);
+  }
+}
+
+function shakeElement(element) {
+  element.style.animation = "none";
+  void element.offsetWidth; // Trigger reflow
+  element.style.animation = "shake 0.5s ease";
+}
+
+// Add shake animation
+const style = document.createElement("style");
+style.textContent = `
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+  }
+`;
+document.head.appendChild(style);
+
+// Enter key support
+document.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") {
+    signup();
+  }
+});
+
+// Input focus effects
+document.querySelectorAll(".form-input").forEach(input => {
+  input.addEventListener("focus", function() {
+    this.parentElement.classList.add("focused");
+  });
+  
+  input.addEventListener("blur", function() {
+    this.parentElement.classList.remove("focused");
+  });
+});
+</script>
+</body>
+</html>
