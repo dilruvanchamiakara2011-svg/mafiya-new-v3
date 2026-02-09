@@ -1417,47 +1417,36 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-/* AUTH CHECK */
+
+  
 document.addEventListener("DOMContentLoaded", () => {
 
+  // AUTH BUTTON LOGIC
   const authRight = document.querySelector(".auth-right");
 
-  if(localStorage.getItem("cyberUser")){
-    authRight.innerHTML = `
-      <a href="#" class="auth-btn" id="logoutBtn">LOGOUT</a>
-    `;
-  }
+  const updateAuthButtons = () => {
+    if(localStorage.getItem("cyberUser")){
+      authRight.innerHTML = `<a href="#" class="auth-btn" id="logoutBtn">LOGOUT</a>`;
+    } else {
+      authRight.innerHTML = `
+        <a href="/login.html" class="auth-btn">LOGIN</a>
+        <a href="/signup.html" class="auth-btn signup">SIGN UP</a>
+      `;
+    }
+  };
 
+  updateAuthButtons(); // page load එකේ check කරන්න
+
+  // LOGOUT CLICK
   document.addEventListener("click", (e)=>{
     if(e.target.id === "logoutBtn"){
       localStorage.removeItem("cyberUser");
-      window.location.reload();
+      updateAuthButtons();
     }
   });
 
 });
 
-
-document.addEventListener("DOMContentLoaded", () => {
-
-  const authRight = document.querySelector(".auth-right");
-
-  // ✅ if logged in → show logout
-  if(localStorage.getItem("cyberUser")){
-    authRight.innerHTML = `
-      <a href="#" class="auth-btn" id="logoutBtn">LOGOUT</a>
-    `;
-  }
-
-  // ✅ logout click
-  document.addEventListener("click", (e)=>{
-    if(e.target.id === "logoutBtn"){
-      localStorage.removeItem("cyberUser");
-      window.location.reload();
-    }
-  });
-
-});
 
 </script>
 </body>
