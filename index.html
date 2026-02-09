@@ -1417,7 +1417,21 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
+/* AUTH CHECK */
+const authRight = document.querySelector(".auth-right");
 
+if(localStorage.getItem("cyberUser")){
+  authRight.innerHTML = `
+    <a href="#" class="auth-btn" id="logoutBtn">LOGOUT</a>
+  `;
+      }
+
+document.addEventListener("click", (e)=>{
+  if(e.target.id === "logoutBtn"){
+    localStorage.removeItem("cyberUser");
+    location.reload();
+  }
+});
 </script>
 </body>
   </html>
