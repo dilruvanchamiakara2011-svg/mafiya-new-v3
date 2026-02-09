@@ -600,13 +600,25 @@ accidInput.addEventListener("input", function() {
   this.value = this.value.replace(/[^0-9]/g, '');
 });
 
-// SUCCESS AFTER LOGIN
-localStorage.setItem("cyberUser", "true");
-window.location.href = "/";
-  
 //bux fix 
 localStorage.removeItem("cyberUser")
-  
+
+<form id="signupForm">
+  <input type="text" required>
+  <input type="password" required>
+  <button type="submit">SIGN UP</button>
+</form>
+
+  // re connect home page 
+document.getElementById("signupForm").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  // validation ok after signup
+  localStorage.setItem("cyberUser", "true");
+
+  window.location.href = "/";
+});
+
 </script>
 </body>
 </html>
