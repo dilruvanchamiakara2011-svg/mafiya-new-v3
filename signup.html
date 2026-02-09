@@ -599,6 +599,10 @@ document.querySelectorAll("input").forEach(input => {
 accidInput.addEventListener("input", function() {
   this.value = this.value.replace(/[^0-9]/g, '');
 });
+
+// SUCCESS AFTER LOGIN
+localStorage.setItem("cyberUser", "logged");
+window.location.href = "/";
 </script>
 </body>
 </html>
