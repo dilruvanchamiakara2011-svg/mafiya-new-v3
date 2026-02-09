@@ -1418,19 +1418,23 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 /* AUTH CHECK */
-const authRight = document.querySelector(".auth-right");
+document.addEventListener("DOMContentLoaded", () => {
 
-if(localStorage.getItem("cyberUser")){
-  authRight.innerHTML = `
-    <a href="#" class="auth-btn" id="logoutBtn">LOGOUT</a>
-  `;
-      }
+  const authRight = document.querySelector(".auth-right");
 
-document.addEventListener("click", (e)=>{
-  if(e.target.id === "logoutBtn"){
-    localStorage.removeItem("cyberUser");
-    location.reload();
+  if(localStorage.getItem("cyberUser")){
+    authRight.innerHTML = `
+      <a href="#" class="auth-btn" id="logoutBtn">LOGOUT</a>
+    `;
   }
+
+  document.addEventListener("click", (e)=>{
+    if(e.target.id === "logoutBtn"){
+      localStorage.removeItem("cyberUser");
+      window.location.reload();
+    }
+  });
+
 });
 </script>
 </body>
