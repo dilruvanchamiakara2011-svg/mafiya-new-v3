@@ -4,382 +4,362 @@
 <meta charset="UTF-8">
 <title>CYBER SIGN UP</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
-
-:root {
-  --primary: #00ff88;
-  --secondary: #00aaff;
-  --accent: #ff00ff;
-  --bg: #0a0a1a;
-  --card-bg: rgba(15, 20, 35, 0.9);
-  --glow: 0 0 20px rgba(0, 255, 136, 0.5);
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  background: var(--bg);
-  color: #fff;
-  font-family: 'Inter', sans-serif;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  position: relative;
-}
-
 /* Background Effects */
+body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#0a0a1a;
+  font-family:'Inter',sans-serif;
+  color:#fff;
+  position:relative;
+  overflow:hidden;
+}
+
 .cyber-bg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -2;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
   background: 
-    radial-gradient(circle at 20% 50%, rgba(0, 255, 136, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(0, 170, 255, 0.1) 0%, transparent 50%);
+    radial-gradient(circle at 20% 50%, rgba(0,255,136,0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(0,170,255,0.1) 0%, transparent 50%);
+  z-index:-2;
 }
 
 .grid-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
   background-image: 
-    linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px);
-  background-size: 50px 50px;
-  z-index: -1;
-  opacity: 0.5;
-}
-
-/* Main Container */
-.signup-container {
-  width: 100%;
-  max-width: 450px;
-  padding: 20px;
+    linear-gradient(rgba(0,255,136,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,136,0.03) 1px, transparent 1px);
+  background-size:40px 40px;
+  z-index:-1;
+  opacity:0.4;
 }
 
 /* Cyber Card */
-.cyber-card {
-  background: var(--card-bg);
-  border: 1px solid rgba(0, 255, 136, 0.3);
-  border-radius: 20px;
-  padding: 40px;
-  backdrop-filter: blur(15px);
-  box-shadow: 
-    0 20px 40px rgba(0, 0, 0, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  position: relative;
-  overflow: hidden;
-  animation: card-appear 0.8s ease-out;
+.card{
+  width:100%;
+  max-width:420px;
+  background:rgba(15,20,35,.95);
+  padding:40px 35px;
+  border-radius:20px;
+  border:1px solid rgba(0,255,136,.3);
+  box-shadow:0 0 40px rgba(0,255,136,.2),
+             inset 0 1px 0 rgba(255,255,255,.1);
+  backdrop-filter:blur(12px);
+  position:relative;
+  overflow:hidden;
+  animation:cardAppear 0.8s ease-out;
 }
 
-@keyframes card-appear {
+@keyframes cardAppear {
   from {
-    opacity: 0;
-    transform: translateY(30px) scale(0.95);
+    opacity:0;
+    transform:translateY(30px) scale(0.95);
   }
   to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
+    opacity:1;
+    transform:translateY(0) scale(1);
   }
 }
 
-.cyber-card::before {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  background: linear-gradient(
-    45deg,
-    #00ff88, #00aaff, #0088ff, #00ff88
-  );
-  border-radius: 22px;
-  z-index: -1;
-  opacity: 0.5;
-  animation: border-rotate 3s linear infinite;
+.card::before {
+  content:'';
+  position:absolute;
+  top:-2px;
+  left:-2px;
+  right:-2px;
+  bottom:-2px;
+  background:linear-gradient(45deg, 
+    #00ff88, #00aaff, #0088ff, #00ff88);
+  border-radius:22px;
+  z-index:-1;
+  opacity:0.3;
+  animation:borderRotate 4s linear infinite;
 }
 
-@keyframes border-rotate {
-  0% {
-    filter: hue-rotate(0deg);
-  }
-  100% {
-    filter: hue-rotate(360deg);
-  }
+@keyframes borderRotate {
+  0% { filter:hue-rotate(0deg); }
+  100% { filter:hue-rotate(360deg); }
 }
 
 /* Header */
-.signup-header {
-  text-align: center;
-  margin-bottom: 40px;
+h1{
+  font-family:'Orbitron',sans-serif;
+  text-align:center;
+  margin-bottom:30px;
+  background:linear-gradient(90deg,#00ff88,#00aaff,#00ff88);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  font-size:2.5rem;
+  letter-spacing:4px;
+  text-shadow:0 0 20px rgba(0,255,136,0.3);
+  animation:titleGlow 2s ease-in-out infinite alternate;
 }
 
-.signup-title {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 2.5rem;
-  background: linear-gradient(90deg, var(--primary), var(--secondary));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 10px;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  text-shadow: var(--glow);
-  animation: title-glow 2s ease-in-out infinite alternate;
+@keyframes titleGlow {
+  0% { filter:brightness(1); }
+  100% { filter:brightness(1.4); }
 }
 
-@keyframes title-glow {
-  0% { filter: brightness(1); }
-  100% { filter: brightness(1.5); }
+.subtitle{
+  text-align:center;
+  color:rgba(255,255,255,0.6);
+  font-size:0.9rem;
+  letter-spacing:2px;
+  margin-bottom:30px;
+  font-family:'Orbitron',sans-serif;
 }
 
-.signup-subtitle {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 0.9rem;
-  letter-spacing: 2px;
+/* Input Fields */
+.input-group {
+  position:relative;
+  margin-bottom:20px;
 }
 
-/* Form Groups */
-.form-group {
-  position: relative;
-  margin-bottom: 25px;
+input{
+  width:95%;
+  padding:16px 20px;
+  margin-bottom:0;
+  border-radius:12px;
+  border:2px solid rgba(0,255,136,.3);
+  background:rgba(0,0,0,.4);
+  color:#fff;
+  outline:none;
+  font-family:'Inter',sans-serif;
+  font-size:1rem;
+  transition:all 0.3s ease;
 }
 
-.form-input {
-  width: 100%;
-  padding: 18px 20px;
-  background: rgba(0, 0, 0, 0.3);
-  border: 2px solid rgba(0, 255, 136, 0.2);
-  border-radius: 12px;
-  color: white;
-  font-family: 'Inter', sans-serif;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  position: relative;
-  z-index: 1;
+input:focus {
+  border-color:#00ff88;
+  box-shadow:0 0 20px rgba(0,255,136,.3);
+  background:rgba(0,0,0,.6);
 }
 
-.form-input:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
-  background: rgba(0, 0, 0, 0.5);
+.placeholder-label {
+  position:absolute;
+  left:20px;
+  top:16px;
+  color:rgba(255,255,255,.6);
+  pointer-events:none;
+  transition:all 0.3s ease;
+  font-size:0.9rem;
+  font-family:'Orbitron',sans-serif;
+  letter-spacing:1px;
 }
 
-.form-label {
-  position: absolute;
-  left: 20px;
-  top: 18px;
-  color: rgba(255, 255, 255, 0.6);
-  transition: all 0.3s ease;
-  pointer-events: none;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 0.9rem;
-  letter-spacing: 1px;
+input:focus + .placeholder-label,
+input:not(:placeholder-shown) + .placeholder-label {
+  top:-10px;
+  left:15px;
+  font-size:0.75rem;
+  color:#00ff88;
+  background:rgba(15,20,35,.95);
+  padding:0 8px;
+  text-shadow:0 0 8px rgba(0,255,136,.5);
 }
 
-.form-input:focus + .form-label,
-.form-input:not(:placeholder-shown) + .form-label {
-  top: -12px;
-  left: 15px;
-  font-size: 0.8rem;
-  color: var(--primary);
-  background: var(--card-bg);
-  padding: 0 10px;
-  text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
-}
-
-/* Show Password */
+/* Password Toggle */
 .password-wrapper {
-  position: relative;
+  position:relative;
 }
 
 .toggle-password {
-  position: absolute;
-  right: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  color: rgba(0, 255, 136, 0.7);
-  cursor: pointer;
-  font-size: 1.2rem;
-  padding: 5px;
-  transition: all 0.3s ease;
+  position:absolute;
+  right:15px;
+  top:50%;
+  transform:translateY(-50%);
+  background:none;
+  border:none;
+  color:rgba(0,255,136,.7);
+  cursor:pointer;
+  font-size:0.9rem;
+  padding: 0.5px;
+  transition:all 0.3s ease;
 }
 
 .toggle-password:hover {
-  color: var(--primary);
+  color:#00ff88;
+  transform:translateY(-50%) scale(1.1);
 }
 
-/* Submit Button */
-.submit-btn {
-  width: 100%;
-  padding: 18px;
-  background: linear-gradient(45deg, 
-    rgba(0, 255, 136, 0.2), 
-    rgba(0, 170, 255, 0.2));
-  border: 2px solid var(--primary);
-  border-radius: 12px;
-  color: var(--primary);
-  font-family: 'Orbitron', sans-serif;
-  font-size: 1.1rem;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-top: 20px;
-  position: relative;
-  overflow: hidden;
+/* Button */
+button{
+  width:100%;
+  padding:16px;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  font-family:'Orbitron',sans-serif;
+  letter-spacing:3px;
+  font-size:1.1rem;
+  font-weight:700;
+  background:linear-gradient(90deg,#00ff88,#00aaff);
+  color:#000;
+  margin-top:10px;
+  transition:all 0.3s ease;
+  position:relative;
+  overflow:hidden;
 }
 
-.submit-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, 
+button::before {
+  content:'';
+  position:absolute;
+  top:0;
+  left:-100%;
+  width:100%;
+  height:100%;
+  background:linear-gradient(90deg, 
     transparent, 
-    rgba(0, 255, 136, 0.3), 
+    rgba(255,255,255,.3), 
     transparent);
-  transition: 0.5s;
+  transition:0.5s;
 }
 
-.submit-btn:hover::before {
-  left: 100%;
+button:hover::before {
+  left:100%;
 }
 
-.submit-btn:hover {
-  background: linear-gradient(45deg, 
-    rgba(0, 255, 136, 0.3), 
-    rgba(0, 170, 255, 0.3));
-  transform: translateY(-3px);
-  box-shadow: 0 10px 25px rgba(0, 255, 136, 0.4);
-  color: #00ffcc;
+button:hover{
+  box-shadow:0 0 30px rgba(0,255,136,.6);
+  transform:translateY(-3px);
 }
 
-.submit-btn:active {
-  transform: translateY(-1px);
+button:active {
+  transform:translateY(-1px);
 }
 
-.submit-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none !important;
+button:disabled {
+  opacity:0.6;
+  cursor:not-allowed;
+  transform:none !important;
 }
 
-/* Message */
-.message {
-  text-align: center;
-  margin-top: 20px;
-  padding: 15px;
-  border-radius: 10px;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 0.9rem;
-  letter-spacing: 1px;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: all 0.3s ease;
-}
-
-.message.success {
-  background: rgba(0, 255, 136, 0.1);
-  border: 1px solid rgba(0, 255, 136, 0.3);
-  color: #00ff88;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.message.error {
-  background: rgba(255, 0, 0, 0.1);
-  border: 1px solid rgba(255, 0, 0, 0.3);
-  color: #ff5555;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Footer Links */
-.signup-footer {
-  text-align: center;
-  margin-top: 30px;
-  padding-top: 20px;
-  border-top: 1px solid rgba(0, 255, 136, 0.1);
-}
-
-.login-link {
-  color: var(--secondary);
-  text-decoration: none;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 0.9rem;
-  letter-spacing: 2px;
-  transition: all 0.3s ease;
-  position: relative;
-}
-
-.login-link::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 0;
-  height: 1px;
-  background: var(--secondary);
-  transition: width 0.3s ease;
-}
-
-.login-link:hover {
-  color: var(--primary);
-}
-
-.login-link:hover::after {
-  width: 100%;
-}
-
-/* Loading Animation */
+/* Loading Spinner */
 .loading {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  border: 3px solid rgba(0, 255, 136, 0.3);
-  border-top-color: var(--primary);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  vertical-align: middle;
-  margin-right: 10px;
+  display:inline-block;
+  width:20px;
+  height:20px;
+  border:3px solid rgba(0,255,136,.3);
+  border-top-color:#00ff88;
+  border-radius:50%;
+  animation:spin 1s linear infinite;
+  vertical-align:middle;
+  margin-right:10px;
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to { transform:rotate(360deg); }
+}
+
+/* Message */
+.message{
+  margin-top:20px;
+  text-align:center;
+  font-size:0.9rem;
+  padding:12px 15px;
+  border-radius:10px;
+  opacity:0;
+  transform:translateY(10px);
+  transition:all 0.3s ease;
+  font-family:'Orbitron',sans-serif;
+  letter-spacing:1px;
+}
+
+.message.show {
+  opacity:1;
+  transform:translateY(0);
+}
+
+.message.success{
+  color:#00ff88;
+  background:rgba(0,255,136,.1);
+  border:1px solid rgba(0,255,136,.3);
+}
+
+.message.error{
+  color:#ff5555;
+  background:rgba(255,85,85,.1);
+  border:1px solid rgba(255,85,85,.3);
+}
+
+/* Footer */
+.login-link {
+  text-align:center;
+  margin-top:25px;
+  padding-top:20px;
+  border-top:1px solid rgba(0,255,136,.1);
+}
+
+.login-link a {
+  color:#00aaff;
+  text-decoration:none;
+  font-family:'Orbitron',sans-serif;
+  font-size:0.9rem;
+  letter-spacing:2px;
+  transition:all 0.3s ease;
+  position:relative;
+}
+
+.login-link a::after {
+  content:'';
+  position:absolute;
+  bottom:-2px;
+  left:0;
+  width:0;
+  height:1px;
+  background:#00aaff;
+  transition:width 0.3s ease;
+}
+
+.login-link a:hover {
+  color:#00ff88;
+}
+
+.login-link a:hover::after {
+  width:100%;
 }
 
 /* Responsive */
-@media (max-width: 480px) {
-  .cyber-card {
-    padding: 30px 20px;
-    margin: 0 15px;
+@media (max-width:480px) {
+  .card {
+    margin:20px;
+    padding:30px 25px;
   }
   
-  .signup-title {
-    font-size: 2rem;
-    letter-spacing: 2px;
+  h1 {
+    font-size:2rem;
+    letter-spacing:2px;
   }
   
-  .form-input {
-    padding: 15px;
+  input {
+    padding:14px;
   }
+}
+
+/* Shake animation */
+@keyframes shake {
+  0%, 100% { transform:translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform:translateX(-5px); }
+  20%, 40%, 60%, 80% { transform:translateX(5px); }
+}
+
+.shake {
+  animation:shake 0.5s ease;
 }
 </style>
 </head>
@@ -388,71 +368,81 @@ body {
 <div class="cyber-bg"></div>
 <div class="grid-overlay"></div>
 
-<div class="signup-container">
-  <div class="cyber-card">
-    <div class="signup-header">
-      <h1 class="signup-title">CYBER SIGN UP</h1>
-      <p class="signup-subtitle">JOIN THE NETWORK</p>
-    </div>
+<div class="card">
+  <h1>SIGN UP</h1>
+  <p class="subtitle">JOIN THE CYBER NETWORK</p>
 
-    <div class="form-group">
-      <input type="text" 
-             class="form-input" 
-             id="username" 
-             placeholder=" "
-             autocomplete="username">
-      <label class="form-label" for="username">USERNAME</label>
-    </div>
-
-    <div class="form-group">
-      <input type="email" 
-             class="form-input" 
-             id="email" 
-             placeholder=" "
-             autocomplete="email">
-      <label class="form-label" for="email">EMAIL</label>
-    </div>
-
-    <div class="form-group password-wrapper">
-      <input type="password" 
-             class="form-input" 
-             id="password" 
-             placeholder=" "
-             autocomplete="new-password">
-      <label class="form-label" for="password">PASSWORD</label>
-      <button type="button" class="toggle-password" id="togglePassword">
-        👁️
-      </button>
-    </div>
-
-    <button class="submit-btn" id="signupBtn" onclick="signup()">
-      <span id="btnText">SIGN UP</span>
-      <span id="btnLoading" class="loading" style="display: none;"></span>
+  <div class="input-group">
+    <input type="text" id="username" placeholder=" ">
+    <label class="placeholder-label">USERNAME</label>
+  </div>
+  
+  <div class="input-group">
+    <input type="email" id="email" placeholder=" ">
+    <label class="placeholder-label">EMAIL</label>
+  </div>
+  
+  <div class="input-group password-wrapper">
+    <input type="password" id="password" placeholder=" ">
+    <label class="placeholder-label">PASSWORD</label>
+    <button type="button" class="toggle-password" id="togglePassword">
+      👁️
     </button>
+  </div>
 
-    <div class="message" id="msg"></div>
+  <div class="input-group">
+    <input
+      type="text"
+      id="accid"
+      placeholder=" "
+      inputmode="numeric"
+      pattern="[0-9]*"
+      oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+    >
+    <label class="placeholder-label">ACCOUNT ID (NUMBERS ONLY)</label>
+  </div>
 
-    <div class="signup-footer">
-      <a href="login.html" class="login-link">
-        ALREADY HAVE AN ACCOUNT? LOGIN →
-      </a>
-    </div>
+  <button onclick="signup()" id="signupBtn">
+    <span id="btnText">SIGN UP</span>
+    <span id="btnLoading" class="loading" style="display:none;"></span>
+  </button>
+
+  <div class="message" id="msg"></div>
+
+  <div class="login-link">
+    <a href="login.html">ALREADY HAVE AN ACCOUNT? LOGIN →</a>
   </div>
 </div>
 
-<script>
-// ⚠️ TOKEN (you said it's OK 😅)
-const TOKEN = "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";
+<!-- 🔥 FIREBASE SCRIPT -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// Repo info
-const OWNER = "dilruvanchamikara2011";
-const REPO  = "Mafiya-new-v3-data_base";
-const FILE  = "users.json";
+// ✅ YOUR FIREBASE CONFIG
+const firebaseConfig = {
+  apiKey: "AIzaSyDW-hB0B-sdrIGI7Uf0Pl2CgfIV5R4X9hY",
+  authDomain: "mafiya-new-data-base.firebaseapp.com",
+  projectId: "mafiya-new-data-base",
+  storageBucket: "mafiya-new-data-base.firebasestorage.app",
+  messagingSenderId: "87239991760",
+  appId: "1:87239991760:web:89ca5f8e07ffb8f8fb19d5"
+};
+
+// Init Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 // DOM Elements
 const usernameInput = document.getElementById("username");
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
+const accidInput = document.getElementById("accid");
 const togglePasswordBtn = document.getElementById("togglePassword");
 const signupBtn = document.getElementById("signupBtn");
 const btnText = document.getElementById("btnText");
@@ -467,32 +457,35 @@ togglePasswordBtn.addEventListener("click", () => {
   togglePasswordBtn.textContent = passwordVisible ? "👁️‍🗨️" : "👁️";
 });
 
-async function signup() {
+// Signup function
+window.signup = async function () {
   const username = usernameInput.value.trim();
   const email = emailInput.value.trim();
   const password = passwordInput.value;
+  const accid = accidInput.value.trim();
 
   // Clear previous message
-  msg.className = "message";
   msg.textContent = "";
+  msg.className = "message";
 
-  // Validation
-  if (!username || !email || !password) {
-    showMessage("Fill all fields", "error");
+  // Validations
+  if (!username || !email || !password || !accid) {
+    showMessage("Fill all fields ❌", "error");
     shakeElement(usernameInput);
     shakeElement(emailInput);
     shakeElement(passwordInput);
+    shakeElement(accidInput);
     return;
   }
 
-  if (!validateEmail(email)) {
-    showMessage("Invalid email format", "error");
-    shakeElement(emailInput);
+  if (!/^[0-9]+$/.test(accid)) {
+    showMessage("Account ID numbers only ❌", "error");
+    shakeElement(accidInput);
     return;
   }
 
   if (password.length < 6) {
-    showMessage("Password must be at least 6 characters", "error");
+    showMessage("Password must be at least 6 characters ❌", "error");
     shakeElement(passwordInput);
     return;
   }
@@ -502,70 +495,55 @@ async function signup() {
   btnText.textContent = "PROCESSING";
   btnLoading.style.display = "inline-block";
 
-  const api = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
-
   try {
-    // 1️⃣ Get current file
-    const res = await fetch(api, {
-      headers: {
-        Authorization: `token ${TOKEN}`
-      }
-    });
-    
-    if (!res.ok) throw new Error("Failed to fetch users data");
-    
-    const data = await res.json();
-    const users = JSON.parse(atob(data.content));
+    // 🔍 check ACCID exists
+    const userRef = doc(db, "users", accid);
+    const snap = await getDoc(userRef);
 
-    // Check if user already exists
-    if (users.find(u => u.email === email)) {
-      showMessage("Email already registered", "error");
+    if (snap.exists()) {
+      showMessage("Account ID already exists ❌", "error");
+      shakeElement(accidInput);
       return;
     }
 
-    // 2️⃣ Add new user
-    users.push({ 
-      username, 
-      email, 
-      password,
-      createdAt: new Date().toISOString(),
-      status: "active"
+    // 🌐 get file origin / IP info
+    const origin = window.location.origin;   // file:// or domain
+    const userAgent = navigator.userAgent;
+
+    // 💾 save user at users/{ACCID}
+    await setDoc(userRef, {
+      accid,
+      username,
+      email,
+      password, // demo only ⚠️
+      origin,
+      userAgent,
+      createdAt: new Date().toISOString()
     });
 
-    // 3️⃣ Update file
-    const update = await fetch(api, {
-      method: "PUT",
-      headers: {
-        Authorization: `token ${TOKEN}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        message: `Add user: ${username}`,
-        content: btoa(JSON.stringify(users, null, 2)),
-        sha: data.sha
-      })
-    });
+    showMessage("Signup successful! ✅", "success");
 
-    if (update.ok) {
-      showMessage("Signup successful! Welcome to the network ✅", "success");
-      
-      // Clear form
-      usernameInput.value = "";
-      emailInput.value = "";
-      passwordInput.value = "";
-      
-      // Redirect to login after 2 seconds
-      setTimeout(() => {
-        window.location.href = "/login";
-      }, 2000);
-      
-    } else {
-      showMessage("Signup failed. Try again ❌", "error");
-    }
+    // remember login (home page buttons hide)
+    localStorage.setItem("user", JSON.stringify({
+      accid,
+      username,
+      email
+    }));
 
-  } catch (error) {
-    console.error("Signup error:", error);
-    showMessage("Connection error. Check console ❌", "error");
+    // Clear form
+    usernameInput.value = "";
+    emailInput.value = "";
+    passwordInput.value = "";
+    accidInput.value = "";
+
+    // Redirect to home
+    setTimeout(() => {
+      window.location.href = "/";
+    }, 1500);
+
+  } catch(e) {
+    console.error(e);
+    showMessage("Database error ❌", "error");
   } finally {
     // Reset button state
     signupBtn.disabled = false;
@@ -575,14 +553,9 @@ async function signup() {
 }
 
 // Helper Functions
-function validateEmail(email) {
-  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return re.test(email);
-}
-
 function showMessage(text, type) {
   msg.textContent = text;
-  msg.className = `message ${type}`;
+  msg.className = `message ${type} show`;
   
   // Auto-hide error messages after 5 seconds
   if (type === "error") {
@@ -594,31 +567,25 @@ function showMessage(text, type) {
 }
 
 function shakeElement(element) {
-  element.style.animation = "none";
+  element.classList.remove('shake');
   void element.offsetWidth; // Trigger reflow
-  element.style.animation = "shake 0.5s ease";
+  element.classList.add('shake');
+  
+  // Remove shake class after animation
+  setTimeout(() => {
+    element.classList.remove('shake');
+  }, 500);
 }
-
-// Add shake animation
-const style = document.createElement("style");
-style.textContent = `
-  @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-    20%, 40%, 60%, 80% { transform: translateX(5px); }
-  }
-`;
-document.head.appendChild(style);
 
 // Enter key support
 document.addEventListener("keypress", (e) => {
   if (e.key === "Enter") {
-    signup();
+    window.signup();
   }
 });
 
 // Input focus effects
-document.querySelectorAll(".form-input").forEach(input => {
+document.querySelectorAll("input").forEach(input => {
   input.addEventListener("focus", function() {
     this.parentElement.classList.add("focused");
   });
@@ -626,6 +593,11 @@ document.querySelectorAll(".form-input").forEach(input => {
   input.addEventListener("blur", function() {
     this.parentElement.classList.remove("focused");
   });
+});
+
+// Input validation for accid
+accidInput.addEventListener("input", function() {
+  this.value = this.value.replace(/[^0-9]/g, '');
 });
 </script>
 </body>
