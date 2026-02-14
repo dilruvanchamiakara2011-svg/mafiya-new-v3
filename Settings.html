@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexacore · Settings</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --nexa-bg: #080B14;
+            --nexa-surface: #0E1320;
+            --nexa-card: #141B2B;
+            --nexa-blue: #0A66FF;
+            --nexa-blue-deep: #0047B3;
+            --nexa-cyan: #00D2FF;
+            --nexa-success: #00E5B0;
+            --nexa-text: #F2F8FF;
+            --nexa-text-dim: #A5BED9;
+            --nexa-border: #1F2A3F;
+            --font-primary: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--nexa-bg);
+            color: var(--nexa-text);
+        }
+
+        .navbar-nexa {
+            background: rgba(8, 11, 20, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(10,102,255,0.25);
+            padding: 16px 32px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 9999;
+        }
+
+        .nexa-brand {
+            font-weight: 800;
+            font-size: 28px;
+            background: linear-gradient(145deg, #FFFFFF, #E0F0FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 12px;
+        }
+
+        .nav-link-item {
+            color: var(--nexa-text-dim);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 12px;
+        }
+
+        .nav-link-item.active {
+            color: var(--nexa-blue);
+            background: rgba(10,102,255,0.15);
+        }
+
+        .settings-container {
+            max-width: 800px;
+            margin: 120px auto 60px;
+            padding: 0 24px;
+        }
+
+        .settings-card {
+            background: var(--nexa-card);
+            border: 1px solid var(--nexa-border);
+            border-radius: 32px;
+            padding: 32px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 28px;
+            background: linear-gradient(145deg, var(--nexa-blue), var(--nexa-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .settings-group {
+            background: var(--nexa-surface);
+            border: 1px solid var(--nexa-border);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .settings-group h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .settings-group h3 i {
+            color: var(--nexa-blue);
+        }
+
+        .settings-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--nexa-border);
+        }
+
+        .settings-item:last-child {
+            border-bottom: none;
+        }
+
+        .settings-item-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .settings-item-desc {
+            color: var(--nexa-text-dim);
+            font-size: 13px;
+        }
+
+        .btn-settings {
+            background: transparent;
+            border: 1px solid var(--nexa-border);
+            color: var(--nexa-text);
+            padding: 8px 20px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-settings:hover {
+            background: var(--nexa-blue);
+            border-color: var(--nexa-blue);
+            color: white;
+        }
+
+        .settings-select {
+            background: var(--nexa-surface);
+            border: 1px solid var(--nexa-border);
+            border-radius: 12px;
+            padding: 8px 16px;
+            color: var(--nexa-text);
+        }
+
+        .btn-save-all {
+            width: 100%;
+            background: linear-gradient(145deg, var(--nexa-blue), var(--nexa-blue-deep));
+            color: white;
+            padding: 16px;
+            border: none;
+            border-radius: 20px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .settings-card {
+                padding: 24px;
+            }
+            
+            .settings-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+            
+            .btn-settings {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar-nexa">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <a href="index.html" class="nexa-brand">NEXACORE.</a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link-item">Dashboard</a>
+                <a href="profile.html" class="nav-link-item">Profile</a>
+                <a href="settings.html" class="nav-link-item active">Settings</a>
+                <a href="subscription.html" class="nav-link-item">Subscription</a>
+                <a href="services.html" class="nav-link-item">Services</a>
+            </div>
+            <a href="menu.html" style="color: var(--nexa-text);">
+                <i class="fas fa-bars fa-2x"></i>
+            </a>
+        </div>
+    </nav>
+
+    <div class="settings-container">
+        <div class="settings-card">
+            <h2 class="page-title">Settings</h2>
+            
+            <!-- Account Settings -->
+            <div class="settings-group">
+                <h3><i class="fas fa-user-circle"></i> Account</h3>
+                
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-title">Email Address</div>
+                        <div class="settings-item-desc">guest@nexacore.com</div>
+                    </div>
+                    <button class="btn-settings" onclick="alert('Demo: Change email')">Change</button>
+                </div>
+                
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-title">Password</div>
+                        <div class="settings-item-desc">Last changed 30 days ago</div>
+                    </div>
+                    <button class="btn-settings" onclick="alert('Demo: Change password')">Update</button>
+                </div>
+                
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-title">Phone Number</div>
+                        <div class="settings-item-desc">Not verified</div>
+                    </div>
+                    <button class="btn-settings" onclick="alert('Demo: Add phone')">Add</button>
+                </div>
+            </div>
+
+            <!-- Security Settings -->
+            <div class="settings-group">
+                <h3><i class="fas fa-shield-alt"></i> Security</h3>
+                
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-title">Two-Factor Authentication</div>
+                        <div class="settings-item-desc">Protect your account with 2FA</div>
+                    </div>
+                    <button class="btn-settings" onclick="alert('Demo: Toggle 2FA')">Enable</button>
+                </div>
+                
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-title">Login Alerts</div>
+                        <div class="settings-item-desc">Get notified on new sign-ins</div>
+                    </div>
+                    <button class="btn-settings" onclick="alert('Demo: Toggle alerts')">Enable</button>
+                </div>
+            </div>
+
+            <!-- Language & Region -->
+            <div class="settings-group">
+                <h3><i class="fas fa-globe"></i> Language & Region</h3>
+                
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-title">Display Language</div>
+                        <div class="settings-item-desc">50+ languages supported</div>
+                    </div>
+                    <select class="settings-select">
+                        <option value="en">English</option>
+                        <option value="si">සිංහල</option>
+                        <option value="ta">தமிழ்</option>
+                    </select>
+                </div>
+                
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-title">Currency</div>
+                        <div class="settings-item-desc">Default payment currency</div>
+                    </div>
+                    <select class="settings-select">
+                        <option value="LKR">LKR (රු)</option>
+                        <option value="USD">USD ($)</option>
+                        <option value="EUR">EUR (€)</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn-save-all" onclick="alert('✅ Settings saved!')">
+                Save All Settings
+            </button>
+        </div>
+    </div>
+</body>
+</html>

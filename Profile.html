@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexacore · Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --nexa-bg: #080B14;
+            --nexa-surface: #0E1320;
+            --nexa-card: #141B2B;
+            --nexa-card-hover: #1A2335;
+            --nexa-blue: #0A66FF;
+            --nexa-blue-deep: #0047B3;
+            --nexa-cyan: #00D2FF;
+            --nexa-purple: #6C5CE7;
+            --nexa-success: #00E5B0;
+            --nexa-warning: #FFB84D;
+            --nexa-text: #F2F8FF;
+            --nexa-text-dim: #A5BED9;
+            --nexa-border: #1F2A3F;
+            --font-primary: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--nexa-bg);
+            color: var(--nexa-text);
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar-nexa {
+            background: rgba(8, 11, 20, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(10,102,255,0.25);
+            padding: 16px 32px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 9999;
+        }
+
+        .nexa-brand {
+            font-weight: 800;
+            font-size: 28px;
+            background: linear-gradient(145deg, #FFFFFF, #E0F0FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 12px;
+        }
+
+        .nav-link-item {
+            color: var(--nexa-text-dim);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 12px;
+        }
+
+        .nav-link-item:hover,
+        .nav-link-item.active {
+            color: var(--nexa-blue);
+            background: rgba(10,102,255,0.15);
+        }
+
+        .profile-container {
+            max-width: 700px;
+            margin: 120px auto 60px;
+            padding: 0 24px;
+        }
+
+        .profile-card {
+            background: var(--nexa-card);
+            border: 1px solid var(--nexa-border);
+            border-radius: 32px;
+            padding: 40px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 28px;
+            background: linear-gradient(145deg, var(--nexa-blue), var(--nexa-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .profile-upload-area {
+            width: 120px;
+            height: 120px;
+            background: var(--nexa-surface);
+            border: 2px dashed var(--nexa-blue);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin: 0 auto;
+            transition: 0.2s;
+        }
+
+        .profile-upload-area:hover {
+            background: rgba(10,102,255,0.08);
+            border-color: var(--nexa-cyan);
+        }
+
+        .profile-upload-area i {
+            font-size: 40px;
+            color: var(--nexa-blue);
+            margin-bottom: 8px;
+        }
+
+        .profile-upload-area span {
+            color: var(--nexa-blue);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--nexa-text);
+        }
+
+        .form-control {
+            background: var(--nexa-surface);
+            border: 1px solid var(--nexa-border);
+            border-radius: 16px;
+            padding: 14px 18px;
+            color: var(--nexa-text);
+            font-size: 15px;
+            width: 100%;
+        }
+
+        .form-control:focus {
+            border-color: var(--nexa-blue);
+            box-shadow: 0 0 0 3px rgba(10,102,255,0.1);
+            outline: none;
+        }
+
+        .btn-save-profile {
+            width: 100%;
+            background: linear-gradient(145deg, var(--nexa-blue), var(--nexa-blue-deep));
+            color: white;
+            padding: 16px;
+            border: none;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 16px;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-save-profile:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(10,102,255,0.3);
+        }
+
+        @media (max-width: 768px) {
+            .navbar-nexa {
+                padding: 14px 20px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .profile-card {
+                padding: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar-nexa">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <a href="index.html" class="nexa-brand">NEXACORE.</a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link-item">Dashboard</a>
+                <a href="profile.html" class="nav-link-item active">Profile</a>
+                <a href="settings.html" class="nav-link-item">Settings</a>
+                <a href="subscription.html" class="nav-link-item">Subscription</a>
+                <a href="services.html" class="nav-link-item">Services</a>
+            </div>
+            <a href="menu.html" class="hamburger-premium" style="color: var(--nexa-text);">
+                <i class="fas fa-bars fa-2x"></i>
+            </a>
+        </div>
+    </nav>
+
+    <div class="profile-container">
+        <div class="profile-card">
+            <h2 class="page-title">My Profile</h2>
+            
+            <div class="text-center mb-4">
+                <div class="profile-upload-area" onclick="document.getElementById('profileUploadInput').click();">
+                    <img id="profilePreviewImg" src="https://via.placeholder.com/120x120/0A66FF/FFFFFF?text=N" alt="Profile" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: none;">
+                    <i id="profilePreviewIcon" class="fas fa-camera"></i>
+                    <span>Upload Photo</span>
+                </div>
+                <input type="file" id="profileUploadInput" accept="image/*" style="display: none;" onchange="handleProfileUpload(event)">
+            </div>
+
+            <div class="form-group">
+                <label>Nickname</label>
+                <input type="text" id="nicknameInput" class="form-control" value="Tech Explorer">
+            </div>
+            
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="usernameInput" class="form-control" value="guest_user">
+            </div>
+            
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="fullNameInput" class="form-control" placeholder="John Doe">
+            </div>
+            
+            <div class="form-group">
+                <label>Bio</label>
+                <textarea id="bioInput" rows="3" class="form-control" placeholder="Tell us about yourself..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>WhatsApp</label>
+                <input type="text" id="whatsappInput" class="form-control" placeholder="+94 XX XXX XXXX">
+            </div>
+
+            <div class="form-group">
+                <label>Telegram</label>
+                <input type="text" id="telegramInput" class="form-control" placeholder="@username">
+            </div>
+
+            <button onclick="saveProfile()" class="btn-save-profile">
+                Save Profile Changes
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let profileData = {
+            nickname: 'Tech Explorer',
+            username: 'guest_user'
+        };
+
+        function handleProfileUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const previewImg = document.getElementById('profilePreviewImg');
+                    const previewIcon = document.getElementById('profilePreviewIcon');
+                    previewImg.src = e.target.result;
+                    previewImg.style.display = 'block';
+                    previewIcon.style.display = 'none';
+                    localStorage.setItem('nexacore_profile_image', e.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function saveProfile() {
+            const nickname = document.getElementById('nicknameInput')?.value;
+            const username = document.getElementById('usernameInput')?.value;
+            
+            profileData.nickname = nickname;
+            profileData.username = username;
+            
+            alert('✅ Profile updated successfully!');
+        }
+    </script>
+</body>
+</html>
