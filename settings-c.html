@@ -286,6 +286,23 @@
             font-size: 13px;
         }
 
+        /* Input Fields */
+        .settings-input {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border-glow-strong);
+            border-radius: 30px;
+            padding: 10px 24px;
+            color: var(--text-primary);
+            font-weight: 500;
+            outline: none;
+            min-width: 200px;
+        }
+
+        .settings-input:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.2);
+        }
+
         /* Custom Select */
         .settings-select {
             background: rgba(0, 0, 0, 0.4);
@@ -348,6 +365,36 @@
 
         input:checked + .toggle-slider:before {
             transform: translateX(24px);
+        }
+
+        /* PostImage URL Input */
+        .postimage-section {
+            margin-top: 15px;
+        }
+
+        .postimage-url-input {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .postimage-url-input input {
+            flex: 1;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--border-glow-strong);
+            color: var(--text-primary);
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: var(--secondary);
+            border-color: var(--secondary);
         }
 
         /* Buttons */
@@ -449,8 +496,12 @@
                 gap: 12px;
             }
             
-            .settings-select {
+            .settings-select, .settings-input {
                 width: 100%;
+            }
+            
+            .postimage-url-input {
+                flex-direction: column;
             }
         }
     </style>
@@ -484,22 +535,55 @@
                 <i class="fas fa-copy" style="cursor: pointer; margin-left: auto;" onclick="copyDocId()"></i>
             </div>
 
-            <!-- Profile Photo Section (NEW) -->
+            <!-- Profile Photo Section with PostImage -->
             <div class="settings-group">
                 <h3><i class="fas fa-camera"></i> Profile Photo</h3>
                 <div class="profile-section">
-                    <div class="profile-photo" onclick="document.getElementById('photoInput').click()">
+                    <div class="profile-photo" onclick="document.getElementById('postimageUrl').focus()">
                         <img id="profilePreview" src="" alt="Profile" style="display: none;">
                         <i class="fas fa-user-astronaut" id="photoIcon"></i>
-                        <div class="profile-photo-overlay">Click to upload</div>
+                        <div class="profile-photo-overlay">Enter PostImage URL</div>
                     </div>
-                    <input type="file" id="photoInput" accept="image/*" style="display: none;" onchange="previewPhoto(event)">
                     <div class="profile-info">
                         <div style="font-weight: 700; font-size: 20px;" id="displayName">-</div>
                         <div class="email-badge" id="displayEmail">
                             <i class="fas fa-envelope"></i> loading...
                         </div>
                     </div>
+                </div>
+                
+                <!-- PostImage URL Input -->
+                <div class="postimage-section">
+                    <div class="settings-item">
+                        <div>
+                            <div class="settings-item-title">
+                                <i class="fas fa-link"></i> PostImage URL
+                            </div>
+                            <div class="settings-item-desc">Upload image to PostImage and paste direct link</div>
+                        </div>
+                    </div>
+                    <div class="postimage-url-input">
+                        <input type="url" id="postimageUrl" class="settings-input" placeholder="https://i.postimg.cc/xxx/xxxx.jpg" value="">
+                        <button class="btn-secondary" onclick="previewPostImage()">Preview</button>
+                    </div>
+                    <p style="color: var(--text-dim); font-size: 12px; margin-top: 8px;">
+                        <i class="fas fa-info-circle"></i> Go to <a href="https://postimg.cc" target="_blank" style="color: var(--secondary);">PostImage</a>, upload photo, copy "Direct Link"
+                    </p>
+                </div>
+            </div>
+
+            <!-- WhatsApp Number (NEW - No OTP) -->
+            <div class="settings-group">
+                <h3><i class="fab fa-whatsapp"></i> WhatsApp</h3>
+                
+                <div class="settings-item">
+                    <div>
+                        <div class="settings-item-title">
+                            <i class="fab fa-whatsapp"></i> WhatsApp Number
+                        </div>
+                        <div class="settings-item-desc">Enter your WhatsApp number (no OTP required)</div>
+                    </div>
+                    <input type="text" id="whatsappNumber" class="settings-input" placeholder="+94 77 123 4567" value="">
                 </div>
             </div>
 
@@ -531,20 +615,6 @@
                         <input type="checkbox" id="loginAlerts" checked>
                         <span class="toggle-slider"></span>
                     </label>
-                </div>
-
-                <div class="settings-item">
-                    <div>
-                        <div class="settings-item-title">
-                            <i class="fas fa-history"></i> Session Timeout
-                        </div>
-                        <div class="settings-item-desc">Auto logout after inactivity</div>
-                    </div>
-                    <select class="settings-select" id="sessionTimeout">
-                        <option value="15">15 min</option>
-                        <option value="30" selected>30 min</option>
-                        <option value="60">60 min</option>
-                    </select>
                 </div>
             </div>
 
@@ -639,15 +709,8 @@
             where, 
             getDocs, 
             updateDoc,
-            doc,
-            setDoc
+            doc
         } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-        import { 
-            getStorage, 
-            ref, 
-            uploadString, 
-            getDownloadURL 
-        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
         // Firebase Config
         const firebaseConfig = {
@@ -662,22 +725,31 @@
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-        const storage = getStorage(app);
 
         // Global variables
         let currentUser = null;
         let userDocRef = null;
-        let profilePhotoBase64 = null;
 
         // Message function
         function showMessage(text, type) {
             const msg = document.getElementById('message');
             msg.textContent = text;
             msg.className = `message ${type}`;
+            msg.style.display = 'block';
             setTimeout(() => {
                 msg.style.display = 'none';
             }, 5000);
         }
+
+        // Preview PostImage URL
+        window.previewPostImage = function() {
+            const url = document.getElementById('postimageUrl').value.trim();
+            if (url) {
+                document.getElementById('profilePreview').src = url;
+                document.getElementById('profilePreview').style.display = 'block';
+                document.getElementById('photoIcon').style.display = 'none';
+            }
+        };
 
         // Load user data on page load
         async function loadUserData() {
@@ -717,40 +789,28 @@
                     if (userData.settings) {
                         document.getElementById('twoFA').checked = userData.settings.twoFA ?? true;
                         document.getElementById('loginAlerts').checked = userData.settings.loginAlerts ?? true;
-                        document.getElementById('sessionTimeout').value = userData.settings.sessionTimeout || '30';
                         document.getElementById('emailNotif').checked = userData.settings.emailNotif ?? true;
                         document.getElementById('whatsappNotif').checked = userData.settings.whatsappNotif ?? false;
                         document.getElementById('language').value = userData.settings.language || 'en';
                         document.getElementById('currency').value = userData.settings.currency || 'LKR';
+                        document.getElementById('whatsappNumber').value = userData.settings.whatsappNumber || '';
+                        document.getElementById('postimageUrl').value = userData.settings.profilePhoto || '';
                     }
                     
                     // Load profile photo if exists
-                    if (userData.profilePhoto) {
-                        document.getElementById('profilePreview').src = userData.profilePhoto;
+                    if (userData.settings?.profilePhoto) {
+                        document.getElementById('profilePreview').src = userData.settings.profilePhoto;
                         document.getElementById('profilePreview').style.display = 'block';
                         document.getElementById('photoIcon').style.display = 'none';
                     }
+                } else {
+                    showMessage("User document not found in Firebase", "error");
                 }
             } catch (error) {
                 console.error("Error loading user:", error);
-                showMessage("Error loading user data", "error");
+                showMessage("Error loading user data: " + error.message, "error");
             }
         }
-
-        // Preview photo before upload
-        window.previewPhoto = function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    profilePhotoBase64 = e.target.result;
-                    document.getElementById('profilePreview').src = e.target.result;
-                    document.getElementById('profilePreview').style.display = 'block';
-                    document.getElementById('photoIcon').style.display = 'none';
-                };
-                reader.readAsDataURL(file);
-            }
-        };
 
         // Save settings to Firebase
         window.saveSettings = async function() {
@@ -760,38 +820,26 @@
             }
 
             try {
+                // Get PostImage URL
+                const postimageUrl = document.getElementById('postimageUrl').value.trim();
+                
                 // Collect settings
                 const settings = {
                     twoFA: document.getElementById('twoFA').checked,
                     loginAlerts: document.getElementById('loginAlerts').checked,
-                    sessionTimeout: document.getElementById('sessionTimeout').value,
                     emailNotif: document.getElementById('emailNotif').checked,
                     whatsappNotif: document.getElementById('whatsappNotif').checked,
+                    whatsappNumber: document.getElementById('whatsappNumber').value.trim(),
                     language: document.getElementById('language').value,
                     currency: document.getElementById('currency').value,
+                    profilePhoto: postimageUrl || null,
                     updatedAt: new Date().toISOString()
                 };
 
-                // Prepare update data
-                const updateData = {
-                    settings: settings
-                };
-
-                // Upload profile photo if changed
-                if (profilePhotoBase64) {
-                    // Create a storage reference
-                    const photoRef = ref(storage, `profile_photos/${currentUser.email}_${Date.now()}.jpg`);
-                    
-                    // Upload base64 image
-                    await uploadString(photoRef, profilePhotoBase64, 'data_url');
-                    
-                    // Get download URL
-                    const photoURL = await getDownloadURL(photoRef);
-                    updateData.profilePhoto = photoURL;
-                }
-
                 // Update Firebase
-                await updateDoc(userDocRef, updateData);
+                await updateDoc(userDocRef, {
+                    settings: settings
+                });
 
                 // Get the document ID
                 const docId = userDocRef.id;
