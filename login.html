@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexacore · Login</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-deep: #0a0f1e;
+            --bg-card: rgba(20, 30, 50, 0.85);
+            --border-glow: rgba(0, 210, 255, 0.15);
+            --border-glow-strong: rgba(0, 210, 255, 0.3);
+            --primary: #0a66ff;
+            --primary-light: #4d9cff;
+            --secondary: #00d2ff;
+            --accent: #6c5ce7;
+            --success: #00e5b0;
+            --warning: #ffb84d;
+            --danger: #ff5e7c;
+            --text-primary: #ffffff;
+            --text-secondary: #b0c7e9;
+            --text-dim: #7f9bc0;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: radial-gradient(circle at 30% 30%, #13203a, #060a14);
+            color: var(--text-primary);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background grid */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(10, 102, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(10, 102, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+            animation: scan 20s linear infinite;
+        }
+
+        /* Scan line effect */
+        body::after {
+            content: '';
+            position: fixed;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 20px,
+                rgba(0, 210, 255, 0.02) 21px,
+                rgba(10, 102, 255, 0.02) 22px
+            );
+            pointer-events: none;
+            animation: scan 8s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(-50%); }
+            100% { transform: translateY(50%); }
+        }
+
+        /* Main Card */
+        .card {
+            width: 95%;
+            max-width: 460px;
+            padding: 45px 40px;
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 36px;
+            border: 1px solid var(--border-glow);
+            box-shadow: 0 25px 50px -8px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 210, 255, 0.1) inset;
+            position: relative;
+            z-index: 10;
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 30px 60px -10px rgba(10, 102, 255, 0.3);
+        }
+
+        /* Logo/Brand */
+        .brand {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .brand-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 20px rgba(10, 102, 255, 0.3);
+        }
+
+        .brand-icon i {
+            font-size: 32px;
+            color: white;
+        }
+
+        h1 {
+            font-weight: 800;
+            font-size: 2.2rem;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+
+        .brand-sub {
+            color: var(--text-dim);
+            font-size: 14px;
+            letter-spacing: 2px;
+        }
+
+        /* Input Fields */
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--secondary);
+            font-size: 18px;
+            z-index: 1;
+        }
+
+        input {
+            width: 100%;
+            padding: 16px 20px 16px 50px;
+            border-radius: 30px;
+            border: 1.5px solid var(--border-glow);
+            background: rgba(0, 0, 0, 0.4);
+            color: var(--text-primary);
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.25s;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        input:focus {
+            border-color: var(--secondary);
+            background: rgba(0, 30, 50, 0.6);
+            box-shadow: 0 0 25px rgba(0, 210, 255, 0.2);
+        }
+
+        input::placeholder {
+            color: var(--text-dim);
+            font-weight: 400;
+        }
+
+        /* Password visibility toggle */
+        .password-toggle {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-dim);
+            cursor: pointer;
+            z-index: 1;
+        }
+
+        .password-toggle:hover {
+            color: var(--secondary);
+        }
+
+        /* Button */
+        button {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+            font-size: 1rem;
+            text-transform: uppercase;
+            transition: 0.3s;
+            margin: 10px 0 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 30px -5px rgba(10, 102, 255, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button i {
+            margin-right: 8px;
+        }
+
+        /* Message Box */
+        .message {
+            padding: 16px 20px;
+            border-radius: 20px;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 500;
+            background: rgba(0, 0, 0, 0.4);
+            border-left: 6px solid;
+            backdrop-filter: blur(5px);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .message.success {
+            color: var(--success);
+            border-color: var(--success);
+            background: rgba(0, 229, 176, 0.1);
+        }
+
+        .message.error {
+            color: var(--danger);
+            border-color: var(--danger);
+            background: rgba(255, 94, 124, 0.1);
+        }
+
+        .message.info {
+            color: var(--secondary);
+            border-color: var(--secondary);
+            background: rgba(0, 210, 255, 0.1);
+        }
+
+        /* Login Link */
+        .login-link {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            border-top: 1px solid var(--border-glow);
+            padding-top: 20px;
+        }
+
+        .login-link span {
+            color: var(--secondary);
+            cursor: pointer;
+            font-weight: 700;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+            transition: 0.2s;
+        }
+
+        .login-link span:hover {
+            text-shadow: 0 0 10px var(--secondary);
+        }
+
+        /* Back to Home */
+        .back-home {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: var(--text-dim);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            transition: 0.2s;
+            z-index: 20;
+        }
+
+        .back-home:hover {
+            color: var(--secondary);
+            transform: translateX(-5px);
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .card {
+                padding: 30px 25px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="back-home">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+    </a>
+
+    <div class="card">
+        <!-- Brand -->
+        <div class="brand">
+            <div class="brand-icon">
+                <i class="fas fa-user-astronaut"></i>
+            </div>
+            <h1>WELCOME BACK</h1>
+            <div class="brand-sub">NEXACORE · ENTERPRISE</div>
+        </div>
+
+        <!-- Login Form -->
+        <div class="input-group">
+            <i class="fas fa-user input-icon"></i>
+            <input type="text" id="loginInput" placeholder="Email or Username" autocomplete="off">
+        </div>
+
+        <div class="input-group">
+            <i class="fas fa-lock input-icon"></i>
+            <input type="password" id="passwordInput" placeholder="Password">
+            <i class="fas fa-eye password-toggle" id="togglePassword" onclick="togglePasswordVisibility()"></i>
+        </div>
+
+        <button onclick="login()">
+            <i class="fas fa-sign-in-alt"></i> LOG IN
+        </button>
+
+        <!-- Message Area -->
+        <div id="msg" class="message info">
+            <i class="fas fa-bolt"></i> ENTER YOUR CREDENTIALS
+        </div>
+
+        <!-- Signup Link -->
+        <div class="login-link">
+            Don't have an account? <span onclick="goSignup()">SIGN UP</span>
+        </div>
+    </div>
+
+    <!-- Firebase Scripts -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import {
+            getFirestore, collection, query, where, getDocs
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        /* ================= FIREBASE INIT ================= */
+        const firebaseConfig = {
+            apiKey: "AIzaSyDW-hB0B-sdrIGI7Uf0Pl2CgfIV5R4X9hY",
+            authDomain: "mafiya-new-data-base.firebaseapp.com",
+            projectId: "mafiya-new-data-base",
+            storageBucket: "mafiya-new-data-base.firebasestorage.app",
+            messagingSenderId: "87239991760",
+            appId: "1:87239991760:web:89ca5f8e07ffb8f8fb19d5",
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        /* ================= UTILS ================= */
+        function showMessage(text, type) {
+            const msg = document.getElementById('msg');
+            msg.innerHTML = text;
+            msg.className = `message ${type}`;
+        }
+
+        // Toggle password visibility
+        window.togglePasswordVisibility = function() {
+            const passwordInput = document.getElementById('passwordInput');
+            const toggleIcon = document.getElementById('togglePassword');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        };
+
+        /* ================= LOGIN FUNCTION ================= */
+        window.login = async function() {
+            const input = document.getElementById('loginInput').value.trim();
+            const password = document.getElementById('passwordInput').value;
+
+            if (!input || !password) {
+                showMessage('❌ Please fill all fields', 'error');
+                return;
+            }
+
+            try {
+                showMessage('⏳ Checking credentials...', 'info');
+
+                // First try to find by email
+                let q = query(collection(db, 'users'), where('email', '==', input));
+                let querySnapshot = await getDocs(q);
+
+                // If not found by email, try by username
+                if (querySnapshot.empty) {
+                    q = query(collection(db, 'users'), where('username', '==', input));
+                    querySnapshot = await getDocs(q);
+                }
+
+                // Check if user exists
+                if (querySnapshot.empty) {
+                    showMessage('❌ User not found', 'error');
+                    return;
+                }
+
+                // Get user document
+                const userDoc = querySnapshot.docs[0];
+                const userData = userDoc.data();
+                const docId = userDoc.id;
+
+                // Check password
+                if (userData.password !== password) {
+                    showMessage('❌ Incorrect password', 'error');
+                    return;
+                }
+
+                // Check if verified
+                if (!userData.verified) {
+                    showMessage('❌ Account not verified. Please check OTP.', 'error');
+                    return;
+                }
+
+                // ✅ Save to sessionStorage
+                sessionStorage.setItem('nexacore_user', JSON.stringify({
+                    email: userData.email,
+                    username: userData.username,
+                    verified: true
+                }));
+
+                // ✅ Save Document ID to localStorage
+                localStorage.setItem('nexacore_docId', docId);
+
+                showMessage('✅ Login successful! Redirecting...', 'success');
+
+                // Redirect to dashboard
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1500);
+
+            } catch (error) {
+                console.error('Login error:', error);
+                showMessage('❌ Login failed: ' + (error.message || 'Unknown error'), 'error');
+            }
+        };
+
+        /* ================= SIGNUP LINK ================= */
+        window.goSignup = function() {
+            window.location.href = 'signup.html';
+        };
+
+        /* ================= CHECK EXISTING LOGIN ================= */
+        window.onload = function() {
+            const loggedUser = sessionStorage.getItem('nexacore_user');
+            if (loggedUser) {
+                window.location.href = 'index.html';
+            }
+        };
+    </script>
+
+    <!-- For togglePassword function to work globally -->
+    <script>
+        // This is just to make togglePassword available globally
+        // The actual function is in the module, but we need it for onclick
+        window.togglePasswordVisibility = function() {
+            const passwordInput = document.getElementById('passwordInput');
+            const toggleIcon = document.getElementById('togglePassword');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        };
+    </script>
+</body>
+</html>
