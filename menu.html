@@ -162,12 +162,23 @@
             justify-content: center;
             border: 2px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 10px 20px rgba(10, 102, 255, 0.3);
+            overflow: hidden;
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .profile-avatar i {
             font-size: 32px;
             color: white;
             filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3));
+        }
+
+        .profile-info {
+            flex: 1;
         }
 
         .profile-info h5 {
@@ -191,6 +202,29 @@
         .profile-info p i {
             color: var(--success);
             font-size: 10px;
+        }
+
+        /* Document ID Badge */
+        .doc-id-badge {
+            background: rgba(0, 210, 255, 0.1);
+            border: 1px solid var(--border-glow-strong);
+            border-radius: 40px;
+            padding: 8px 16px;
+            margin-top: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+        }
+
+        .doc-id-badge i {
+            color: var(--secondary);
+        }
+
+        #docId {
+            color: var(--secondary);
+            font-weight: 700;
+            letter-spacing: 1px;
         }
 
         /* ===== NAVIGATION ITEMS ===== */
@@ -281,6 +315,21 @@
             font-weight: 600;
         }
 
+        /* Loading Spinner */
+        .loading-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--border-glow-strong);
+            border-top-color: var(--secondary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
         /* ===== RESPONSIVE ===== */
         @media (max-width: 400px) {
             .menu-container {
@@ -313,18 +362,28 @@
 
     <!-- MENU CONTENT -->
     <div class="menu-container">
-        <!-- PROFILE CARD (ENHANCED) -->
-        <div class="profile-header">
-            <div class="profile-avatar">
-                <i class="fas fa-user-astronaut"></i>
+        <!-- PROFILE CARD (DYNAMIC) -->
+        <div class="profile-header" id="profileHeader">
+            <div class="profile-avatar" id="profileAvatar">
+                <i class="fas fa-user-astronaut" id="avatarIcon"></i>
+                <img id="avatarImage" src="" alt="Profile" style="display: none;">
             </div>
             <div class="profile-info">
-                <h5>Tech Explorer</h5>
-                <p><i class="fas fa-circle"></i> @guest_user · Free Plan</p>
+                <h5 id="profileName">Loading...</h5>
+                <p id="profileStatus">
+                    <i class="fas fa-circle"></i> 
+                    <span id="profileEmail">please wait</span>
+                </p>
+                <!-- Document ID Badge (will show when loaded) -->
+                <div class="doc-id-badge" id="docIdBadge" style="display: none;">
+                    <i class="fas fa-fingerprint"></i>
+                    <span>ID: <span id="docId">-</span></span>
+                    <i class="fas fa-copy" style="cursor: pointer;" onclick="copyDocId()" title="Copy Document ID"></i>
+                </div>
             </div>
         </div>
 
-        <!-- NAVIGATION LINKS (PREMIUM) -->
+        <!-- NAVIGATION LINKS -->
         <a href="index.html" class="nav-item">
             <i class="fas fa-chart-pie"></i> 
             Dashboard
@@ -347,7 +406,7 @@
             Services
         </a>
         
-        <a href="settings.html" class="nav-item">
+        <a href="settings-c.html" class="nav-item">
             <i class="fas fa-sliders-h"></i> 
             Settings
         </a>
@@ -360,11 +419,11 @@
 
         <div class="divider"></div>
 
-        <!-- LOGIN / SIGNUP LINK (SPECIAL STYLE) -->
-        <a href="login.html" class="nav-item nav-item-logout">
-            <i class="fas fa-sign-in-alt"></i> 
-            Login / Signup
-            <i class="fas fa-arrow-right" style="margin-left: auto; width: auto; color: var(--danger);"></i>
+        <!-- LOGIN / SIGNUP LINK (DYNAMIC) -->
+        <a href="login.html" class="nav-item nav-item-logout" id="loginLogoutLink">
+            <i class="fas fa-sign-in-alt" id="loginLogoutIcon"></i> 
+            <span id="loginLogoutText">Login / Signup</span>
+            <i class="fas fa-arrow-right" style="margin-left: auto; width: auto;" id="loginLogoutArrow"></i>
         </a>
 
         <!-- EXTRA INFO -->
@@ -372,5 +431,148 @@
             <i class="fas fa-shield-alt"></i> Secured by Nexacore · v4.0
         </div>
     </div>
+
+    <!-- Firebase Scripts -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { 
+            getFirestore, 
+            doc,
+            getDoc
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // Firebase Config
+        const firebaseConfig = {
+            apiKey: "AIzaSyDW-hB0B-sdrIGI7Uf0Pl2CgfIV5R4X9hY",
+            authDomain: "mafiya-new-data-base.firebaseapp.com",
+            projectId: "mafiya-new-data-base",
+            storageBucket: "mafiya-new-data-base.firebasestorage.app",
+            messagingSenderId: "87239991760",
+            appId: "1:87239991760:web:89ca5f8e07ffb8f8fb19d5",
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Copy Document ID function
+        window.copyDocId = function() {
+            const docId = document.getElementById('docId').textContent;
+            if (docId && docId !== '-') {
+                navigator.clipboard.writeText(docId);
+                alert('📋 Document ID copied to clipboard!');
+            }
+        };
+
+        // Load user data from localStorage and Firebase
+        async function loadUserData() {
+            try {
+                // Get Document ID from localStorage
+                const docId = localStorage.getItem('nexacore_docId');
+                
+                // Get user from sessionStorage
+                const savedUser = sessionStorage.getItem('nexacore_user');
+                
+                const profileName = document.getElementById('profileName');
+                const profileEmail = document.getElementById('profileEmail');
+                const avatarIcon = document.getElementById('avatarIcon');
+                const avatarImage = document.getElementById('avatarImage');
+                const docIdBadge = document.getElementById('docIdBadge');
+                const docIdSpan = document.getElementById('docId');
+                const loginLogoutText = document.getElementById('loginLogoutText');
+                const loginLogoutIcon = document.getElementById('loginLogoutIcon');
+                const loginLogoutArrow = document.getElementById('loginLogoutArrow');
+                const loginLogoutLink = document.getElementById('loginLogoutLink');
+
+                if (savedUser && docId) {
+                    // User is logged in
+                    const userData = JSON.parse(savedUser);
+                    
+                    // Show Document ID
+                    docIdSpan.textContent = docId;
+                    docIdBadge.style.display = 'inline-flex';
+                    
+                    // Update login/logout link to LOGOUT
+                    loginLogoutText.textContent = 'Logout';
+                    loginLogoutIcon.className = 'fas fa-sign-out-alt';
+                    loginLogoutArrow.style.color = 'var(--danger)';
+                    loginLogoutLink.href = '#'; // Change to logout action
+                    loginLogoutLink.onclick = function(e) {
+                        e.preventDefault();
+                        logout();
+                    };
+
+                    // Try to get full user data from Firebase using Document ID
+                    try {
+                        const userDocRef = doc(db, "users", docId);
+                        const userDoc = await getDoc(userDocRef);
+                        
+                        if (userDoc.exists()) {
+                            const firebaseData = userDoc.data();
+                            
+                            // Update profile with Firebase data
+                            profileName.textContent = firebaseData.username || userData.username || 'User';
+                            profileEmail.textContent = firebaseData.email || userData.email;
+                            
+                            // Load profile photo from settings
+                            if (firebaseData.settings?.profilePhoto) {
+                                avatarImage.src = firebaseData.settings.profilePhoto;
+                                avatarImage.style.display = 'block';
+                                avatarIcon.style.display = 'none';
+                            }
+                        } else {
+                            // Fallback to sessionStorage data
+                            profileName.textContent = userData.username || 'User';
+                            profileEmail.textContent = userData.email;
+                        }
+                    } catch (firebaseError) {
+                        console.error("Error loading from Firebase:", firebaseError);
+                        // Fallback to sessionStorage data
+                        profileName.textContent = userData.username || 'User';
+                        profileEmail.textContent = userData.email;
+                    }
+                } else {
+                    // User is not logged in
+                    profileName.textContent = 'Guest User';
+                    profileEmail.textContent = 'not logged in';
+                    docIdBadge.style.display = 'none';
+                    
+                    // Reset avatar
+                    avatarImage.style.display = 'none';
+                    avatarIcon.style.display = 'block';
+                    
+                    // Update login/logout link to LOGIN
+                    loginLogoutText.textContent = 'Login / Signup';
+                    loginLogoutIcon.className = 'fas fa-sign-in-alt';
+                    loginLogoutArrow.style.color = '';
+                    loginLogoutLink.href = 'login.html';
+                    loginLogoutLink.onclick = null;
+                }
+            } catch (error) {
+                console.error("Error loading user data:", error);
+                document.getElementById('profileName').textContent = 'Error loading';
+                document.getElementById('profileEmail').textContent = 'please try again';
+            }
+        }
+
+        // Logout function
+        window.logout = function() {
+            // Clear session storage
+            sessionStorage.removeItem('nexacore_user');
+            // Keep localStorage document ID? Optional - can clear if needed
+            // localStorage.removeItem('nexacore_docId');
+            
+            // Reload the menu to show login state
+            loadUserData();
+            
+            // Optional: Show message
+            alert('🔓 Logged out successfully');
+        };
+
+        // Initialize on page load
+        window.onload = function() {
+            loadUserData();
+        };
+    </script>
 </body>
-</html>
+                </html>
